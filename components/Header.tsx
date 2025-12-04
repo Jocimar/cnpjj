@@ -7,7 +7,8 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     // Check initial theme preference
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    // Default to light mode unless explicitly set to dark in localStorage
+    if (localStorage.theme === 'dark') {
       document.documentElement.classList.add('dark');
       setIsDark(true);
     } else {

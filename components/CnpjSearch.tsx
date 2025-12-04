@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Loader2, AlertCircle, ChevronDown, ChevronUp, MapPin, Building2 } from 'lucide-react';
+import { Search, Loader2, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { fetchCompanyByCnpj } from '../services/api';
 import { CompanyData } from '../types';
 import { CompanyDetails } from './CompanyDetails';
@@ -28,28 +28,6 @@ const FaqItem: React.FC<{ question: string; answer: string }> = ({ question, ans
       )}
     </div>
   );
-};
-
-// Helper to generate generic neighbor CNPJs for demo purposes
-// In a real app, this would come from a "Nearby" API endpoint
-const generateNeighbors = (baseCnpj: string) => {
-  const clean = baseCnpj.replace(/\D/g, '');
-  const baseNum = parseInt(clean.substring(0, 8)); // Use root for variation
-  
-  const neighbors = [];
-  for (let i = 1; i <= 5; i++) {
-    // Simply incrementing the root number to simulate other companies
-    // Note: This generates invalid check digits but serves for UI demonstration
-    const nextRoot = (baseNum + i).toString().padStart(8, '0');
-    const suffix = '0001';
-    const digits = '00'; // Placeholder check digits
-    
-    neighbors.push({
-      cnpj: `${nextRoot.substring(0, 2)}.${nextRoot.substring(2, 5)}.${nextRoot.substring(5, 8)}/${suffix}-${digits}`,
-      name: `EMPRESA EXEMPLO ${i} LTDA`
-    });
-  }
-  return neighbors;
 };
 
 export const CnpjSearch: React.FC = () => {
@@ -99,8 +77,6 @@ export const CnpjSearch: React.FC = () => {
     e.preventDefault();
     performSearch(cnpjInput);
   };
-
-  const neighbors = data ? generateNeighbors(data.cnpj) : [];
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto pb-12">
@@ -170,27 +146,6 @@ export const CnpjSearch: React.FC = () => {
                 question={`Qual é o telefone da empresa ${data.razao_social}?`}
                 answer={`O telefone cadastrado é ${data.ddd_telefone_1 ? `(${data.ddd_telefone_1})` : 'não informado'}.`}
               />
-            </div>
-          </div>
-
-          {/* Other Companies Section */}
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-              Outras empresas
-            </h2>
-            <div className="grid gap-2">
-              {neighbors.map((neighbor, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => performSearch(neighbor.cnpj)}
-                  className="w-full text-left p-4 rounded-lg bg-[#1e40af] hover:bg-[#1e3a8a] text-white transition-colors shadow-sm flex items-center justify-between group"
-                >
-                  <span className="font-medium truncate mr-4">
-                    {neighbor.cnpj} {neighbor.name} - {neighbor.cnpj}
-                  </span>
-                  <Search className="h-4 w-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                </button>
-              ))}
             </div>
           </div>
         </div>
