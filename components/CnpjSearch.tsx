@@ -1,35 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Loader2, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, Loader2, AlertCircle } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCompanyByCnpj } from '../services/api';
 import { CompanyData } from '../types';
 import { CompanyDetails } from './CompanyDetails';
-
-// Helper component for FAQ Items
-const FaqItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="border-b border-slate-200 dark:border-slate-800 last:border-0">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between py-4 text-left hover:bg-slate-50 dark:hover:bg-slate-900/50 px-2 rounded-lg transition-colors"
-      >
-        <span className="font-medium text-slate-900 dark:text-slate-100 pr-4">{question}</span>
-        {isOpen ? (
-          <ChevronUp className="h-4 w-4 text-slate-500 shrink-0" />
-        ) : (
-          <ChevronDown className="h-4 w-4 text-slate-500 shrink-0" />
-        )}
-      </button>
-      {isOpen && (
-        <div className="pb-4 px-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed animate-in slide-in-from-top-2 fade-in duration-200">
-          {answer}
-        </div>
-      )}
-    </div>
-  );
-};
 
 export const CnpjSearch: React.FC = () => {
   const { cnpj: cnpjParam } = useParams();
@@ -90,11 +64,11 @@ export const CnpjSearch: React.FC = () => {
         }
       }
     } else {
-      // Reset if navigating back to home root
-      if (!loading && data) {
-        setData(null);
-        setCnpjInput('');
-      }
+      // Reset if navigating back to home root (e.g. clicking Logo)
+      // We always clear data and input to ensure a fresh search state
+      setData(null);
+      setCnpjInput('');
+      setError(null);
     }
   }, [cnpjParam]);
 
@@ -152,35 +126,6 @@ export const CnpjSearch: React.FC = () => {
       {data && (
         <div className="animate-in slide-in-from-bottom-4 fade-in duration-500 space-y-8">
           <CompanyDetails data={data} />
-
-          {/* FAQ Section */}
-          <div className="space-y-4 pt-4">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-              FAQ - Perguntas e Respostas
-            </h2>
-            <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
-              <FaqItem 
-                question={`De quem é o CNPJ ${data.cnpj}?`}
-                answer={`O CNPJ ${data.cnpj} pertence à razão social ${data.razao_social}, com nome fantasia ${data.nome_fantasia || 'não informado'}, localizada na cidade de ${data.municipio} - ${data.uf}.`}
-              />
-              <FaqItem 
-                question={`Qual a razão social da empresa de CNPJ ${data.cnpj}?`}
-                answer={`A razão social é ${data.razao_social}.`}
-              />
-               <FaqItem 
-                question={`Qual o CNAE da empresa ${data.razao_social}?`}
-                answer={`A atividade principal (CNAE) é ${data.cnae_fiscal} - ${data.cnae_fiscal_descricao}.`}
-              />
-              <FaqItem 
-                question={`Qual o endereço da empresa ${data.razao_social}?`}
-                answer={`A empresa está localizada em: ${data.descricao_tipo_de_logradouro} ${data.logradouro}, ${data.numero} ${data.complemento ? `- ${data.complemento}` : ''}, Bairro ${data.bairro}, ${data.municipio} - ${data.uf}, CEP ${data.cep}.`}
-              />
-              <FaqItem 
-                question={`Qual é o telefone da empresa ${data.razao_social}?`}
-                answer={`O telefone cadastrado é ${data.ddd_telefone_1 ? `(${data.ddd_telefone_1})` : 'não informado'}.`}
-              />
-            </div>
-          </div>
         </div>
       )}
     </div>

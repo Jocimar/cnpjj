@@ -14,6 +14,23 @@ export interface Qsa {
   data_entrada_sociedade: string;
 }
 
+export interface InscricaoEstadual {
+  // Common fields
+  uf?: string;
+  uf_ie?: string; // Added for compatibility with Consultar.IO schema
+  
+  // BrasilAPI existing fields
+  numero?: string;
+  ativo?: boolean;
+  atualizado_em?: string;
+
+  // Consultar.IO fields (from documentation)
+  ie?: string;
+  situacao_ie?: string;
+  situacao_cnpj?: string;
+  data_situacao_uf?: string;
+}
+
 export interface CompanyData {
   cnpj: string;
   identificador_matriz_filial: number;
@@ -41,6 +58,7 @@ export interface CompanyData {
   ddd_telefone_1: string;
   ddd_telefone_2: string | null;
   ddd_fax: string | null;
+  email: string | null; // Added email
   qualificacao_do_responsavel: number;
   capital_social: number;
   porte: number;
@@ -49,10 +67,14 @@ export interface CompanyData {
   data_opcao_pelo_simples: string | null;
   data_exclusao_do_simples: string | null;
   opcao_pelo_mei: boolean | null;
+  data_opcao_pelo_mei: string | null;
+  data_exclusao_do_mei: string | null;
   situacao_especial: string | null;
   data_situacao_especial: string | null;
   cnaes_secundarios: Cnae[];
   qsa: Qsa[];
+  inscricoes_estaduais?: InscricaoEstadual[]; // Added for UI compatibility
+  numero_inscricao_suframa?: string; // Added for UI compatibility
 }
 
 export interface NavItem {
