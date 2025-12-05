@@ -461,7 +461,6 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
                         </div>
                      </div>
                      <div className="text-xs text-slate-500 space-y-1">
-                        <p>{socio.codigo_qualificacao_socio}</p>
                         <p>Entrada: {socio.data_entrada_sociedade}</p>
                      </div>
                   </div>
