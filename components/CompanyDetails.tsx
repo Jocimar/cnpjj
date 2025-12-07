@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CompanyData } from '../types';
-import { MapPin, Users, Building2, RefreshCw, Calculator, UserCheck, CheckSquare, ExternalLink, ChevronDown, ChevronUp, AlertCircle, ScrollText } from 'lucide-react';
+import { MapPin, Users, Building2, ChevronDown, ChevronUp, Info } from 'lucide-react';
 
 interface CompanyDetailsProps {
   data: CompanyData;
@@ -47,9 +47,10 @@ const ResponsiveAd = ({ isMobile }: { isMobile: boolean }) => (
   </div>
 );
 
-const CopyableValue: React.FC<{ value: string | number | null | undefined; className?: string; label?: string }> = ({ value, className, label }) => {
+const CopyableValue: React.FC<{ value: string | number | null | undefined; className?: string; label?: string; truncate?: boolean }> = ({ value, className, label, truncate = true }) => {
   const [copied, setCopied] = useState(false);
   
+  // Always render label if provided, even if value is empty
   const hasValue = value !== null && value !== undefined && value !== '';
   const displayValue = hasValue ? value : '-';
 
@@ -69,7 +70,7 @@ const CopyableValue: React.FC<{ value: string | number | null | undefined; class
         aria-label={hasValue ? "Clique para copiar" : undefined}
       >
         {label && <span className="text-xs text-slate-500 font-medium mb-0.5">{label}</span>}
-        <span className={`truncate ${hasValue ? 'border-b border-dashed border-slate-300 dark:border-slate-700 group-hover:border-emerald-500' : ''} pb-0.5 select-none`}>
+        <span className={`${truncate ? 'truncate' : ''} ${hasValue ? 'border-b border-dashed border-slate-300 dark:border-slate-700 group-hover:border-emerald-500' : ''} pb-0.5 select-none`}>
             {displayValue}
         </span>
       </div>
@@ -125,10 +126,30 @@ const FaqItem: React.FC<{ question: string; answer: string }> = ({ question, ans
         )}
       </button>
       {isOpen && (
-        <div className="pb-4 px-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed animate-in slide-in-from-top-2 fade-in duration-200">
+        <div className="pb-4 px-2 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
           {answer}
         </div>
       )}
+    </div>
+  );
+};
+
+// Static CNAE Row Component (No Fetching/Expansion)
+const CnaeRow: React.FC<{ code: number | string; description: string; isPrincipal?: boolean }> = ({ code, description, isPrincipal = false }) => {
+  // Safe formatting for the code to ensure it matches xx.xx-x-xx
+  const formattedCode = String(code).replace(/\D/g, '').padStart(7, '0').replace(/^(\d{2})(\d{2})(\d)(\d{2})/, '$1.$2-$3-$4');
+
+  return (
+    <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-lg p-3 flex items-start gap-3">
+        <CopyableValue 
+          value={formattedCode} 
+          className={`mt-0.5 px-2 py-0.5 rounded text-xs font-mono font-bold whitespace-nowrap ${isPrincipal ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'}`}
+        />
+        <CopyableValue 
+          value={description} 
+          truncate={false}
+          className="flex-1 text-sm text-slate-700 dark:text-slate-300 font-medium leading-tight pt-0.5"
+        />
     </div>
   );
 };
@@ -138,7 +159,7 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
 
   // Track window resize to toggle between mobile and desktop ads
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth <768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -248,24 +269,26 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
             <div className="flex items-center gap-2 mb-3">
               <h3 className="font-semibold text-sm uppercase tracking-wide text-slate-900 dark:text-white">Atividade Principal</h3>
             </div>
-            <div className="p-3 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 rounded-lg">
-              <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400 mr-2">{data.cnae_fiscal}</span>
-              <span className="text-sm text-slate-700 dark:text-slate-300">{data.cnae_fiscal_descricao}</span>
-            </div>
+            <CnaeRow 
+              code={data.cnae_fiscal} 
+              description={data.cnae_fiscal_descricao} 
+              isPrincipal={true} 
+            />
           </div>
           
           {data.cnaes_secundarios && data.cnaes_secundarios.length > 0 && (
             <div>
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-3 mt-4">
                 <h3 className="font-semibold text-sm uppercase tracking-wide text-slate-900 dark:text-white">Atividades Secundárias</h3>
                 <span className="bg-slate-100 dark:bg-slate-800 text-xs px-2 py-0.5 rounded-full text-slate-600 dark:text-slate-400">{data.cnaes_secundarios.length}</span>
               </div>
               <div className="grid gap-2">
                 {data.cnaes_secundarios.map((cnae) => (
-                  <div key={cnae.codigo} className="p-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 rounded-lg flex items-start">
-                    <span className="font-mono text-xs text-slate-500 mr-3 mt-0.5">{cnae.codigo}</span>
-                    <span className="text-sm text-slate-600 dark:text-slate-400">{cnae.descricao}</span>
-                  </div>
+                  <CnaeRow 
+                    key={cnae.codigo} 
+                    code={cnae.codigo} 
+                    description={cnae.descricao} 
+                  />
                 ))}
               </div>
             </div>
@@ -277,58 +300,50 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
       <ResponsiveAd isMobile={isMobile} />
 
       {/* 7. Regime Tributário */}
-      <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
+      <div className="bg-white dark:bg-slate-900 rounded-lg p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-2">
              <h3 className="font-bold text-slate-900 dark:text-white">Regime Tributário</h3>
           </div>
           
-          <div className="space-y-4">
+          <div className="flex flex-col gap-0.5">
              {data.opcao_pelo_simples ? (
                <>
-                 <div className="flex items-start gap-3">
-                    <div>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        Simples Nacional
-                      </p>
-                      {data.data_opcao_pelo_simples && (
-                        <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_simples)}</p>
-                      )}
-                    </div>
+                 <div>
+                    <p className="text-sm font-medium text-slate-900 dark:text-white">
+                      Simples Nacional
+                    </p>
+                    {data.data_opcao_pelo_simples && (
+                      <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_simples)}</p>
+                    )}
                  </div>
                  {data.opcao_pelo_mei && (
-                   <div className="flex items-start gap-3">
-                      <div>
-                        <p className="text-sm font-medium text-slate-900 dark:text-white">
-                          MEI (Microempreendedor)
-                        </p>
-                        {data.data_opcao_pelo_mei && (
-                          <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_mei)}</p>
-                        )}
-                      </div>
+                   <div className="mt-2">
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">
+                        MEI (Microempreendedor)
+                      </p>
+                      {data.data_opcao_pelo_mei && (
+                        <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_mei)}</p>
+                      )}
                    </div>
                  )}
                </>
              ) : (
-               <div className="flex items-start gap-3">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">
-                      Lucro Real ou Presumido
-                    </p>
-                    <p className="text-xs text-slate-500">Não optante pelo Simples Nacional</p>
-                  </div>
+               <div className="py-1">
+                  <p className="text-sm font-medium text-slate-900 dark:text-white">
+                    Lucro Real ou Presumido
+                  </p>
+                  <p className="text-xs text-slate-500">Não optante pelo Simples Nacional</p>
                </div>
              )}
 
-             <div className="flex items-start gap-3 border-t border-slate-100 dark:border-slate-800 pt-4 mt-2">
-                <div>
-                   <p className="text-sm font-medium text-slate-900 dark:text-white">
-                     {data.descricao_porte}
-                   </p>
-                </div>
+             <div className="py-1 mt-1">
+                 <p className="text-sm font-medium text-slate-900 dark:text-white">
+                   {data.descricao_porte}
+                 </p>
              </div>
           </div>
 
-          <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
+          <div className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
              Atualizado via Simples Nacional
           </div>
        </div>
@@ -340,69 +355,7 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
       {/* 
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
          <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Inscrições Estaduais</h3>
-         <div className="space-y-6">
-            <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 p-4 rounded-md flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" />
-                <div className="text-sm text-amber-800 dark:text-amber-400">
-                  <p className="mb-2">
-                      Para consultar a situação fiscal detalhada e o histórico completo, acesse o <strong>Cadastro Centralizado de Contribuintes (CCC)</strong>.
-                  </p>
-                  <a 
-                      href="https://dfe-portal.svrs.rs.gov.br/NFE/CCC" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 font-semibold underline hover:text-amber-900 dark:hover:text-amber-300"
-                  >
-                      Consultar no Portal CCC <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-            </div>
-
-            {data.inscricoes_estaduais && data.inscricoes_estaduais.length > 0 ? (
-              <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-lg">
-                  <table className="w-full text-sm text-left">
-                    <thead className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800">
-                        <tr>
-                          <th className="px-4 py-3 font-medium">UF</th>
-                          <th className="px-4 py-3 font-medium">Número</th>
-                          <th className="px-4 py-3 font-medium">Situação IE</th>
-                          <th className="px-4 py-3 font-medium">Situação CNPJ</th>
-                          <th className="px-4 py-3 font-medium">Data</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                        {data.inscricoes_estaduais.map((ie, idx) => (
-                          <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-900/50">
-                              <td className="px-4 py-3">{ie.uf || ie.uf_ie}</td>
-                              <td className="px-4 py-3">
-                                <CopyableValue value={ie.ie || ie.numero} className="font-mono" />
-                              </td>
-                              <td className="px-4 py-3">
-                                {ie.situacao_ie ? (
-                                   <Badge color={ie.situacao_ie === 'HABILITADO' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
-                                      {ie.situacao_ie}
-                                   </Badge>
-                                ) : (
-                                    <Badge color={ie.ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
-                                        {ie.ativo ? 'Habilitada' : 'Não Habilitada'}
-                                    </Badge>
-                                )}
-                              </td>
-                              <td className="px-4 py-3 text-slate-500">{ie.situacao_cnpj || '-'}</td>
-                              <td className="px-4 py-3 text-slate-500">{formatDate(ie.data_situacao_uf || ie.atualizado_em)}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center text-slate-500 py-4">
-                  <ScrollText className="w-12 h-12 mb-3 opacity-20" />
-                  <p className="font-medium">Nenhuma Inscrição Estadual vinculada diretamente ao cadastro federal.</p>
-                  <p className="text-sm mt-1">Utilize o link acima para consultar diretamente na SEFAZ.</p>
-              </div>
-            )}
-         </div>
+         ...
       </div>
       */}
 
@@ -415,19 +368,7 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
       {/* 
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
         <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Inscrição SUFRAMA</h3>
-        <div className="text-center py-4">
-          {data.numero_inscricao_suframa ? (
-              <div className="p-4 bg-slate-50 border rounded-lg inline-block">
-                  <p className="text-sm text-slate-500 mb-1">Número de Inscrição</p>
-                  <CopyableValue value={data.numero_inscricao_suframa} className="text-lg font-mono font-semibold" />
-              </div>
-          ) : (
-              <div className="flex flex-col items-center text-slate-500">
-                <Building2 className="w-12 h-12 mb-3 opacity-20" />
-                <p className="font-medium">Não inscrito na SUFRAMA</p>
-              </div>
-          )}
-        </div>
+        ...
       </div>
       */}
 
