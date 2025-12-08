@@ -14,6 +14,13 @@ export const CnpjSearch: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<CompanyData | null>(null);
 
+  // Set default title when no data is present
+  useEffect(() => {
+    if (!data) {
+      document.title = "CNPJJ - Consulta CNPJ Grátis e Dados de Empresas";
+    }
+  }, [data]);
+
   const formatCnpj = (value: string) => {
     return value
       .replace(/\D/g, '')

@@ -157,6 +157,13 @@ const CnaeRow: React.FC<{ code: number | string; description: string; isPrincipa
 export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // Dynamic SEO Title update
+  useEffect(() => {
+    if (data && data.razao_social) {
+      document.title = `${data.razao_social} - CNPJJ`;
+    }
+  }, [data]);
+
   // Track window resize to toggle between mobile and desktop ads
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <768);
