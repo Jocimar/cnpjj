@@ -1,3 +1,4 @@
+
 import { 
   Search, 
   BookOpen,
@@ -9,6 +10,8 @@ import {
 import { NavItem } from './types';
 
 export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
+
+export const PAGBANK_AFFILIATE_LINK = "https://pagbank.vc/indica-maquininhas-a58abebd9";
 
 export const NAV_ITEMS = [
   {

@@ -1,48 +1,117 @@
+
 import React, { useState, useEffect } from 'react';
 import { CompanyData } from '../types';
-import { MapPin, Users, Building2, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight, Truck, ShieldCheck, Clock, Ban } from 'lucide-react';
+import { PAGBANK_AFFILIATE_LINK } from '../constants';
 
-interface CompanyDetailsProps {
-  data: CompanyData;
-}
+const MACHINE_MODELS = [
+  "Moderninha Pro 2",
+  "Moderninha ProFit",
+  "Moderninha Smart 2",
+  "Minizinha Chip 3",
+  "Moderninha Plus 2",
+  "Minizinha NFC 2"
+];
 
-// Helper component for AdSense units to handle initialization per unit
-const AdUnit = (props: any) => {
-  useEffect(() => {
-    try {
-      // @ts-ignore
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.error("AdSense error:", e);
-    }
-  }, []);
+const BENEFITS = [
+  { icon: Ban, title: "Sem aluguel", desc: "Livre-se do aluguel" },
+  { icon: ShieldCheck, title: "Garantia", desc: "5 anos de garantia" },
+  { icon: Clock, title: "Rapidez", desc: "Receba na hora" },
+  { icon: Truck, title: "Entrega", desc: "Frete grátis" }
+];
 
-  return <ins className="adsbygoogle" {...props} />;
+// PagBank Custom Banner Component
+const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> = ({ type, modelIndex }) => {
+  const modelName = MACHINE_MODELS[modelIndex % MACHINE_MODELS.length];
+
+  if (type === 'horizontal') {
+    return (
+      <a 
+        href={PAGBANK_AFFILIATE_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative flex w-full overflow-hidden rounded-xl border border-yellow-400 bg-gradient-to-r from-yellow-400 to-yellow-500 p-4 shadow-md transition-all hover:shadow-lg md:p-6"
+      >
+        <div className="flex w-full flex-col md:flex-row md:items-center md:justify-between relative z-10">
+          <div className="flex items-center gap-4">
+            <div className="hidden h-14 w-14 items-center justify-center rounded-full bg-white/30 md:flex shadow-inner">
+              <CreditCard className="h-7 w-7 text-slate-900" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="inline-block rounded bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">PagBank</span>
+                <h4 className="text-lg font-black text-slate-900 md:text-2xl uppercase tracking-tighter">{modelName}</h4>
+              </div>
+              <div className="flex flex-wrap gap-x-4 gap-y-1">
+                 {BENEFITS.slice(0, 2).map((b, i) => (
+                   <div key={i} className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                     <b.icon className="h-3.5 w-3.5" />
+                     <span>{b.desc}</span>
+                   </div>
+                 ))}
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-4 flex items-center justify-between md:mt-0 gap-6">
+            <div className="hidden lg:flex items-center gap-4 border-l border-slate-900/10 pl-6">
+               {BENEFITS.slice(2).map((b, i) => (
+                 <div key={i} className="flex flex-col items-center text-center">
+                    <b.icon className="h-4 w-4 text-slate-900 mb-0.5" />
+                    <span className="text-[10px] font-bold text-slate-800 uppercase leading-none">{b.title}</span>
+                 </div>
+               ))}
+            </div>
+            <div className="flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg transition-transform group-hover:scale-105 active:scale-95">
+              Ver Ofertas <ArrowRight className="h-4 w-4" />
+            </div>
+          </div>
+        </div>
+        {/* Decorative elements */}
+        <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-white/20 blur-3xl"></div>
+        <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
+      </a>
+    );
+  }
+
+  return (
+    <a 
+      href={PAGBANK_AFFILIATE_LINK}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex flex-col overflow-hidden rounded-xl border border-yellow-400 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-md"
+    >
+      <div className="relative h-28 w-full bg-gradient-to-br from-yellow-400 to-yellow-500 p-6 flex flex-col items-center justify-center">
+        <CreditCard className="h-16 w-16 text-slate-900 opacity-10 absolute -right-2 -bottom-2 rotate-12" />
+        <span className="inline-block rounded-full bg-slate-900 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-widest mb-1 shadow-sm">PagBank</span>
+        <h4 className="text-xl font-black text-slate-900 text-center uppercase tracking-tighter">{modelName}</h4>
+      </div>
+      <div className="p-5 flex flex-col h-full">
+        <div className="space-y-3 mb-6 flex-1">
+          {BENEFITS.map((benefit, i) => (
+            <div key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <div className="h-6 w-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              </div>
+              <span>{benefit.desc}</span>
+            </div>
+          ))}
+        </div>
+        <div className="w-full rounded-lg bg-emerald-600 py-3.5 text-center text-sm font-bold text-white shadow-md transition-all group-hover:bg-emerald-700 group-hover:shadow-lg active:scale-95 flex items-center justify-center gap-2">
+          Ver Ofertas <ArrowRight className="h-4 w-4" />
+        </div>
+      </div>
+    </a>
+  );
 };
 
 // Reusable Responsive Ad Component
-const ResponsiveAd = ({ isMobile }: { isMobile: boolean }) => (
-  <div className="flex justify-center w-full py-4 bg-slate-50 dark:bg-slate-900/50 rounded-lg border border-slate-100 dark:border-slate-800 min-h-[100px]">
-    {!isMobile ? (
-      <div>
-        {/* cnpjj 728x90 */}
-        <AdUnit 
-          style={{ display: 'inline-block', width: '728px', height: '90px' }} 
-          data-ad-client="ca-pub-2924325515288163" 
-          data-ad-slot="9170752312" 
-        />
-      </div>
+const ResponsiveAd = ({ isMobile, modelIndex }: { isMobile: boolean, modelIndex: number }) => (
+  <div className="w-full">
+    {isMobile ? (
+      <PagBankBanner type="card" modelIndex={modelIndex} />
     ) : (
-      <div className="w-full aspect-square overflow-hidden px-4">
-        {/* cnpjj 1200x1200 */}
-        <AdUnit 
-          style={{ display: 'block' }} 
-          data-ad-client="ca-pub-2924325515288163" 
-          data-ad-slot="3437696444" 
-          data-ad-format="auto" 
-          data-full-width-responsive="true" 
-        />
-      </div>
+      <PagBankBanner type="horizontal" modelIndex={modelIndex} />
     )}
   </div>
 );
@@ -50,7 +119,6 @@ const ResponsiveAd = ({ isMobile }: { isMobile: boolean }) => (
 const CopyableValue: React.FC<{ value: string | number | null | undefined; className?: string; label?: string; truncate?: boolean }> = ({ value, className, label, truncate = true }) => {
   const [copied, setCopied] = useState(false);
   
-  // Always render label if provided, even if value is empty
   const hasValue = value !== null && value !== undefined && value !== '';
   const displayValue = hasValue ? value : '-';
 
@@ -74,7 +142,6 @@ const CopyableValue: React.FC<{ value: string | number | null | undefined; class
             {displayValue}
         </span>
       </div>
-      {/* Tooltip */}
       {hasValue && (
         <div className={`
           absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 
@@ -83,7 +150,6 @@ const CopyableValue: React.FC<{ value: string | number | null | undefined; class
           ${copied ? 'bg-emerald-600' : 'bg-slate-800'}
         `}>
           {copied ? 'Copiado!' : 'Clique para copiar'}
-          {/* Triangle Arrow */}
           <div className={`
             absolute top-full left-1/2 -translate-x-1/2 
             border-4 border-transparent 
@@ -95,7 +161,6 @@ const CopyableValue: React.FC<{ value: string | number | null | undefined; class
   );
 };
 
-// Simplified Row Item for the new layout
 const DataRow: React.FC<{ label: string; value: string | number | null | undefined }> = ({ label, value }) => (
   <div className="py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
     <CopyableValue label={label} value={value} className="text-sm text-slate-700 dark:text-slate-200 font-medium" />
@@ -108,7 +173,6 @@ const Badge: React.FC<{ children: React.ReactNode; color?: string }> = ({ childr
   </span>
 );
 
-// Helper component for FAQ Items
 const FaqItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -134,9 +198,7 @@ const FaqItem: React.FC<{ question: string; answer: string }> = ({ question, ans
   );
 };
 
-// Static CNAE Row Component (No Fetching/Expansion)
 const CnaeRow: React.FC<{ code: number | string; description: string; isPrincipal?: boolean }> = ({ code, description, isPrincipal = false }) => {
-  // Safe formatting for the code to ensure it matches xx.xx-x-xx
   const formattedCode = String(code).replace(/\D/g, '').padStart(7, '0').replace(/^(\d{2})(\d{2})(\d)(\d{2})/, '$1.$2-$3-$4');
 
   return (
@@ -154,19 +216,22 @@ const CnaeRow: React.FC<{ code: number | string; description: string; isPrincipa
   );
 };
 
+// Define the interface for the component props
+interface CompanyDetailsProps {
+  data: CompanyData;
+}
+
 export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  // Dynamic SEO Title update
   useEffect(() => {
     if (data && data.razao_social) {
       document.title = `${data.razao_social} - CNPJJ`;
     }
   }, [data]);
 
-  // Track window resize to toggle between mobile and desktop ads
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -223,12 +288,11 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
-      {/* 2. Ad Space */}
-      <ResponsiveAd isMobile={isMobile} />
+      {/* 2. Banner 1: Moderninha Pro 2 */}
+      <ResponsiveAd isMobile={isMobile} modelIndex={0} />
 
       {/* 3. Header (Registration & Location) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Dados Cadastrais */}
           <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
              <div className="flex items-center gap-2 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
                 <Building2 className="w-5 h-5 text-emerald-600" />
@@ -246,7 +310,6 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
              </div>
           </div>
 
-          {/* Localização */}
           <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6 h-fit">
              <div className="flex items-center gap-2 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
                 <MapPin className="w-5 h-5 text-emerald-600" />
@@ -254,7 +317,6 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
              </div>
 
              <div className="flex flex-col gap-1">
-                 <DataRow label="Data Abertura" value={formatDate(data.data_inicio_atividade)} />
                  <DataRow label="Logradouro" value={`${data.descricao_tipo_de_logradouro} ${data.logradouro}`} />
                  <DataRow label="Número" value={data.numero} />
                  <DataRow label="Complemento" value={data.complemento} />
@@ -265,8 +327,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
-      {/* 4. Ad Space */}
-      <ResponsiveAd isMobile={isMobile} />
+      {/* 4. Banner 2: Moderninha ProFit */}
+      <ResponsiveAd isMobile={isMobile} modelIndex={1} />
 
       {/* 5. Atividades Econômicas */}
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
@@ -303,8 +365,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* 6. Ad Space */}
-      <ResponsiveAd isMobile={isMobile} />
+      {/* 6. Banner 3: Moderninha Smart 2 */}
+      <ResponsiveAd isMobile={isMobile} modelIndex={2} />
 
       {/* 7. Regime Tributário */}
       <div className="bg-white dark:bg-slate-900 rounded-lg p-6 shadow-sm">
@@ -349,42 +411,12 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
                  </p>
              </div>
           </div>
-
-          <div className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
-             Atualizado via Simples Nacional
-          </div>
        </div>
 
-      {/* 8. Ad Space */}
-      <ResponsiveAd isMobile={isMobile} />
+      {/* 8. Banner 4: Minizinha Chip 3 */}
+      <ResponsiveAd isMobile={isMobile} modelIndex={3} />
 
-      {/* 9. Inscrições Estaduais (Temporarily Disabled) */}
-      {/* 
-      <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
-         <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Inscrições Estaduais</h3>
-         ...
-      </div>
-      */}
-
-      {/* 10. Ad Space (Temporarily Disabled) */}
-      {/* 
-      <ResponsiveAd isMobile={isMobile} />
-      */}
-
-      {/* 11. SUFRAMA (Temporarily Disabled) */}
-      {/* 
-      <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
-        <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Inscrição SUFRAMA</h3>
-        ...
-      </div>
-      */}
-
-      {/* 12. Ad Space (Temporarily Disabled) */}
-      {/* 
-      <ResponsiveAd isMobile={isMobile} />
-      */}
-
-      {/* 13. Sócios e Administradores */}
+      {/* 9. Sócios e Administradores */}
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
           <div className="flex items-center justify-between mb-4">
              <h3 className="font-bold text-slate-900 dark:text-white">Sócios e Administradores</h3>
@@ -421,10 +453,10 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           )}
        </div>
 
-       {/* 14. Ad Space */}
-       <ResponsiveAd isMobile={isMobile} />
+       {/* 10. Banner 5: Moderninha Plus 2 */}
+       <ResponsiveAd isMobile={isMobile} modelIndex={4} />
 
-       {/* 15. FAQ Section */}
+       {/* 11. FAQ Section */}
        <div className="space-y-4 pt-4">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             FAQ - Perguntas e Respostas
@@ -446,15 +478,11 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
               question={`Qual o endereço da empresa ${data.razao_social}?`}
               answer={`A empresa está localizada em: ${data.descricao_tipo_de_logradouro} ${data.logradouro}, ${data.numero} ${data.complemento ? `- ${data.complemento}` : ''}, Bairro ${data.bairro}, ${data.municipio} - ${data.uf}, CEP ${data.cep}.`}
             />
-            <FaqItem 
-              question={`Qual é o telefone da empresa ${data.razao_social}?`}
-              answer={`O telefone cadastrado é ${data.ddd_telefone_1 ? `(${data.ddd_telefone_1})` : 'não informado'}.`}
-            />
           </div>
        </div>
 
-       {/* 16. Ad Space (Final) */}
-       <ResponsiveAd isMobile={isMobile} />
+       {/* 12. Banner 6: Minizinha NFC 2 */}
+       <ResponsiveAd isMobile={isMobile} modelIndex={5} />
     </div>
   );
 };
