@@ -5,13 +5,32 @@ import {
   Activity,
   Info,
   Shield,
-  FileText
+  FileText,
+  Ban,
+  ShieldCheck,
+  Clock,
+  Truck
 } from 'lucide-react';
-import { NavItem } from './types';
 
 export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
 
 export const PAGBANK_AFFILIATE_LINK = "https://pagbank.vc/indica-maquininhas-a58abebd9";
+
+export const MACHINE_MODELS = [
+  "Moderninha Pro 2",
+  "Moderninha ProFit",
+  "Moderninha Smart 2",
+  "Minizinha Chip 3",
+  "Moderninha Plus 2",
+  "Minizinha NFC 2"
+];
+
+export const PAGBANK_BENEFITS = [
+  { icon: Ban, title: "Sem aluguel", desc: "Livre-se do aluguel" },
+  { icon: ShieldCheck, title: "Garantia", desc: "Maquininhas com 5 anos de garantia" },
+  { icon: Clock, title: "Dinheiro na hora", desc: "Receba seu dinheiro na hora" },
+  { icon: Truck, title: "Frete grátis", desc: "Entrega rápida garantida" }
+];
 
 export const NAV_ITEMS = [
   {

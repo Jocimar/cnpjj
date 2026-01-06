@@ -1,24 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { CompanyData } from '../types';
-import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight, Truck, ShieldCheck, Clock, Ban } from 'lucide-react';
-import { PAGBANK_AFFILIATE_LINK } from '../constants';
-
-const MACHINE_MODELS = [
-  "Moderninha Pro 2",
-  "Moderninha ProFit",
-  "Moderninha Smart 2",
-  "Minizinha Chip 3",
-  "Moderninha Plus 2",
-  "Minizinha NFC 2"
-];
-
-const BENEFITS = [
-  { icon: Ban, title: "Sem aluguel", desc: "Livre-se do aluguel" },
-  { icon: ShieldCheck, title: "Garantia", desc: "5 anos de garantia" },
-  { icon: Clock, title: "Rapidez", desc: "Receba na hora" },
-  { icon: Truck, title: "Entrega", desc: "Frete grátis" }
-];
+import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight } from 'lucide-react';
+import { PAGBANK_AFFILIATE_LINK, MACHINE_MODELS, PAGBANK_BENEFITS } from '../constants';
 
 // PagBank Custom Banner Component
 const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> = ({ type, modelIndex }) => {
@@ -43,10 +27,10 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
                 <h4 className="text-lg font-black text-slate-900 md:text-2xl uppercase tracking-tighter">{modelName}</h4>
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-1">
-                 {BENEFITS.slice(0, 2).map((b, i) => (
+                 {PAGBANK_BENEFITS.slice(0, 2).map((b, i) => (
                    <div key={i} className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
                      <b.icon className="h-3.5 w-3.5" />
-                     <span>{b.desc}</span>
+                     <span>{b.title}</span>
                    </div>
                  ))}
               </div>
@@ -55,7 +39,7 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
           
           <div className="mt-4 flex items-center justify-between md:mt-0 gap-6">
             <div className="hidden lg:flex items-center gap-4 border-l border-slate-900/10 pl-6">
-               {BENEFITS.slice(2).map((b, i) => (
+               {PAGBANK_BENEFITS.slice(2).map((b, i) => (
                  <div key={i} className="flex flex-col items-center text-center">
                     <b.icon className="h-4 w-4 text-slate-900 mb-0.5" />
                     <span className="text-[10px] font-bold text-slate-800 uppercase leading-none">{b.title}</span>
@@ -67,9 +51,7 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
             </div>
           </div>
         </div>
-        {/* Decorative elements */}
         <div className="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-white/20 blur-3xl"></div>
-        <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
       </a>
     );
   }
@@ -88,7 +70,7 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
       </div>
       <div className="p-5 flex flex-col h-full">
         <div className="space-y-3 mb-6 flex-1">
-          {BENEFITS.map((benefit, i) => (
+          {PAGBANK_BENEFITS.map((benefit, i) => (
             <div key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
               <div className="h-6 w-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
                 <CheckCircle2 className="h-4 w-4 text-emerald-600" />
@@ -105,7 +87,6 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
   );
 };
 
-// Reusable Responsive Ad Component
 const ResponsiveAd = ({ isMobile, modelIndex }: { isMobile: boolean, modelIndex: number }) => (
   <div className="w-full">
     {isMobile ? (
@@ -216,7 +197,6 @@ const CnaeRow: React.FC<{ code: number | string; description: string; isPrincipa
   );
 };
 
-// Define the interface for the component props
 interface CompanyDetailsProps {
   data: CompanyData;
 }
@@ -257,28 +237,24 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
   return (
     <div className="space-y-6">
       
-      {/* 1. New Summary Block */}
+      {/* Summary Block */}
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
           <div className="flex flex-col gap-4">
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white uppercase leading-tight">
                   {data.razao_social}
               </h1>
-              
               <div className="flex flex-wrap items-center gap-2">
                   <Badge color={getStatusColor(data.descricao_situacao_cadastral)}>
                       {data.descricao_situacao_cadastral}
                   </Badge>
-                  
                   <Badge color="bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
                       CNPJ: {data.cnpj.replace(/\D/g, '')}
                   </Badge>
-
                   {data.opcao_pelo_simples && (
                        <Badge color="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
                            Simples Nacional
                        </Badge>
                   )}
-                  
                   {data.opcao_pelo_mei && (
                       <Badge color="bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
                           MEI
@@ -288,17 +264,14 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
-      {/* 2. Banner 1: Moderninha Pro 2 */}
       <ResponsiveAd isMobile={isMobile} modelIndex={0} />
 
-      {/* 3. Header (Registration & Location) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
              <div className="flex items-center gap-2 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
                 <Building2 className="w-5 h-5 text-emerald-600" />
                 <h3 className="font-bold text-slate-900 dark:text-white text-lg">Dados Cadastrais</h3>
              </div>
-             
              <div className="flex flex-col gap-1">
                  <DataRow label="CNPJ" value={data.cnpj} />
                  <DataRow label="Razão Social" value={data.razao_social} />
@@ -315,7 +288,6 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
                 <MapPin className="w-5 h-5 text-emerald-600" />
                 <h3 className="font-bold text-slate-900 dark:text-white text-lg">Localização</h3>
              </div>
-
              <div className="flex flex-col gap-1">
                  <DataRow label="Logradouro" value={`${data.descricao_tipo_de_logradouro} ${data.logradouro}`} />
                  <DataRow label="Número" value={data.numero} />
@@ -327,10 +299,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
-      {/* 4. Banner 2: Moderninha ProFit */}
       <ResponsiveAd isMobile={isMobile} modelIndex={1} />
 
-      {/* 5. Atividades Econômicas */}
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
         <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Atividades Econômicas</h3>
         <div className="space-y-6">
@@ -338,13 +308,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
             <div className="flex items-center gap-2 mb-3">
               <h3 className="font-semibold text-sm uppercase tracking-wide text-slate-900 dark:text-white">Atividade Principal</h3>
             </div>
-            <CnaeRow 
-              code={data.cnae_fiscal} 
-              description={data.cnae_fiscal_descricao} 
-              isPrincipal={true} 
-            />
+            <CnaeRow code={data.cnae_fiscal} description={data.cnae_fiscal_descricao} isPrincipal={true} />
           </div>
-          
           {data.cnaes_secundarios && data.cnaes_secundarios.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-3 mt-4">
@@ -353,11 +318,7 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
               </div>
               <div className="grid gap-2">
                 {data.cnaes_secundarios.map((cnae) => (
-                  <CnaeRow 
-                    key={cnae.codigo} 
-                    code={cnae.codigo} 
-                    description={cnae.descricao} 
-                  />
+                  <CnaeRow key={cnae.codigo} code={cnae.codigo} description={cnae.descricao} />
                 ))}
               </div>
             </div>
@@ -365,123 +326,72 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* 6. Banner 3: Moderninha Smart 2 */}
       <ResponsiveAd isMobile={isMobile} modelIndex={2} />
 
-      {/* 7. Regime Tributário */}
       <div className="bg-white dark:bg-slate-900 rounded-lg p-6 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-             <h3 className="font-bold text-slate-900 dark:text-white">Regime Tributário</h3>
-          </div>
-          
+          <h3 className="font-bold text-slate-900 dark:text-white mb-2">Regime Tributário</h3>
           <div className="flex flex-col gap-0.5">
              {data.opcao_pelo_simples ? (
                <>
                  <div>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">
-                      Simples Nacional
-                    </p>
-                    {data.data_opcao_pelo_simples && (
-                      <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_simples)}</p>
-                    )}
+                    <p className="text-sm font-medium text-slate-900 dark:text-white">Simples Nacional</p>
+                    {data.data_opcao_pelo_simples && <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_simples)}</p>}
                  </div>
                  {data.opcao_pelo_mei && (
                    <div className="mt-2">
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        MEI (Microempreendedor)
-                      </p>
-                      {data.data_opcao_pelo_mei && (
-                        <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_mei)}</p>
-                      )}
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">MEI (Microempreendedor)</p>
+                      {data.data_opcao_pelo_mei && <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_mei)}</p>}
                    </div>
                  )}
                </>
              ) : (
                <div className="py-1">
-                  <p className="text-sm font-medium text-slate-900 dark:text-white">
-                    Lucro Real ou Presumido
-                  </p>
+                  <p className="text-sm font-medium text-slate-900 dark:text-white">Lucro Real ou Presumido</p>
                   <p className="text-xs text-slate-500">Não optante pelo Simples Nacional</p>
                </div>
              )}
-
              <div className="py-1 mt-1">
-                 <p className="text-sm font-medium text-slate-900 dark:text-white">
-                   {data.descricao_porte}
-                 </p>
+                 <p className="text-sm font-medium text-slate-900 dark:text-white">{data.descricao_porte}</p>
              </div>
           </div>
        </div>
 
-      {/* 8. Banner 4: Minizinha Chip 3 */}
       <ResponsiveAd isMobile={isMobile} modelIndex={3} />
 
-      {/* 9. Sócios e Administradores */}
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
           <div className="flex items-center justify-between mb-4">
              <h3 className="font-bold text-slate-900 dark:text-white">Sócios e Administradores</h3>
-             <div className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-slate-600">
-                {data.qsa ? data.qsa.length : 0}
-             </div>
+             <div className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-slate-600">{data.qsa ? data.qsa.length : 0}</div>
           </div>
-          
           {data.qsa && data.qsa.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                {data.qsa.map((socio, idx) => (
                   <div key={idx} className="flex flex-col bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 p-4 rounded-lg">
                      <div className="flex items-start gap-3 mb-2">
-                        <div className="bg-white dark:bg-slate-800 p-2 rounded-full shrink-0 shadow-sm">
-                           <Users className="w-4 h-4 text-slate-500" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                           <CopyableValue 
-                             value={socio.nome_socio} 
-                             className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate block uppercase" 
-                           />
-                        </div>
+                        <div className="bg-white dark:bg-slate-800 p-2 rounded-full shrink-0 shadow-sm"><Users className="w-4 h-4 text-slate-500" /></div>
+                        <div className="min-w-0 flex-1"><CopyableValue value={socio.nome_socio} className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate block uppercase" /></div>
                      </div>
-                     <div className="text-xs text-slate-500 space-y-1">
-                        <p>Entrada: {socio.data_entrada_sociedade}</p>
-                     </div>
+                     <div className="text-xs text-slate-500 space-y-1"><p>Entrada: {socio.data_entrada_sociedade}</p></div>
                   </div>
                ))}
             </div>
           ) : (
-             <div className="text-center py-6 text-slate-500 text-sm">
-                Esta empresa não possui sócios informados na base de dados.
-             </div>
+             <div className="text-center py-6 text-slate-500 text-sm">Esta empresa não possui sócios informados na base de dados.</div>
           )}
        </div>
 
-       {/* 10. Banner 5: Moderninha Plus 2 */}
        <ResponsiveAd isMobile={isMobile} modelIndex={4} />
 
-       {/* 11. FAQ Section */}
        <div className="space-y-4 pt-4">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            FAQ - Perguntas e Respostas
-          </h2>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">FAQ - Perguntas e Respostas</h2>
           <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
-            <FaqItem 
-              question={`De quem é o CNPJ ${data.cnpj}?`}
-              answer={`O CNPJ ${data.cnpj} pertence à razão social ${data.razao_social}, com nome fantasia ${data.nome_fantasia || 'não informado'}, localizada na cidade de ${data.municipio} - ${data.uf}.`}
-            />
-            <FaqItem 
-              question={`Qual a razão social da empresa de CNPJ ${data.cnpj}?`}
-              answer={`A razão social é ${data.razao_social}.`}
-            />
-             <FaqItem 
-              question={`Qual o CNAE da empresa ${data.razao_social}?`}
-              answer={`A atividade principal (CNAE) é ${data.cnae_fiscal} - ${data.cnae_fiscal_descricao}.`}
-            />
-            <FaqItem 
-              question={`Qual o endereço da empresa ${data.razao_social}?`}
-              answer={`A empresa está localizada em: ${data.descricao_tipo_de_logradouro} ${data.logradouro}, ${data.numero} ${data.complemento ? `- ${data.complemento}` : ''}, Bairro ${data.bairro}, ${data.municipio} - ${data.uf}, CEP ${data.cep}.`}
-            />
+            <FaqItem question={`De quem é o CNPJ ${data.cnpj}?`} answer={`O CNPJ ${data.cnpj} pertence à razão social ${data.razao_social}, com nome fantasia ${data.nome_fantasia || 'não informado'}, localizada na cidade de ${data.municipio} - ${data.uf}.`} />
+            <FaqItem question={`Qual a razão social da empresa de CNPJ ${data.cnpj}?`} answer={`A razão social é ${data.razao_social}.`} />
+            <FaqItem question={`Qual o CNAE da empresa ${data.razao_social}?`} answer={`A atividade principal (CNAE) é ${data.cnae_fiscal} - ${data.cnae_fiscal_descricao}.`} />
+            <FaqItem question={`Qual o endereço da empresa ${data.razao_social}?`} answer={`A empresa está localizada em: ${data.descricao_tipo_de_logradouro} ${data.logradouro}, ${data.numero} ${data.complemento ? `- ${data.complemento}` : ''}, Bairro ${data.bairro}, ${data.municipio} - ${data.uf}, CEP ${data.cep}.`} />
           </div>
        </div>
 
-       {/* 12. Banner 6: Minizinha NFC 2 */}
        <ResponsiveAd isMobile={isMobile} modelIndex={5} />
     </div>
   );
