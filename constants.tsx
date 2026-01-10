@@ -7,7 +7,7 @@ import {
   Shield,
   FileText,
   Ban,
-  ShieldCheck,
+  Search as SearchIcon,
   Clock,
   Truck,
   CreditCard,
@@ -19,19 +19,38 @@ export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
 
 export const AFFILIATE_LINK = "https://ton.com.br/catalogo/?referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&utm_medium=invite_share&utm_source=revendedor";
 
-export const MACHINE_MODELS = [
-  "Ton T3 Smart",
-  "Ton T3",
-  "Ton T2+",
-  "Ton T1 Chip",
-  "Ton T1"
+export const MACHINE_MODELS_DATA = [
+  {
+    name: "T3 Smart Pro",
+    desc: "A maquininha Android, mais rápida e melhor bateria",
+    benefit: "Frete Grátis para todo Brasil",
+    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_SMART_POS_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+  },
+  {
+    name: "T3 Pro",
+    desc: "A maquininha com comprovante impresso",
+    benefit: "Frete Grátis para todo Brasil",
+    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_S920_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+  },
+  {
+    name: "T2 Pro",
+    desc: "A maquininha compacta que tá sempre com você",
+    benefit: "Frete Grátis para todo Brasil",
+    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D195_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+  },
+  {
+    name: "T1 Pro",
+    desc: "A maquininha compacta que conecta com o seu celular",
+    benefit: "Frete Grátis para todo Brasil",
+    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D150_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+  }
 ];
 
 export const TON_BENEFITS = [
-  { icon: Percent, title: "Taxas a partir de 0,74%", desc: "As melhores taxas do mercado" },
+  { icon: Percent, title: "Melhores Taxas", desc: "Taxas competitivas para o seu negócio" },
   { icon: Ban, title: "Sem aluguel", desc: "A máquina é sua de verdade" },
   { icon: Infinity, title: "Garantia Vitalícia", desc: "Segurança total para sempre" },
-  { icon: Clock, title: "Receba na hora", desc: "Venda e receba o dinheiro rápido" }
+  { icon: Truck, title: "Frete Grátis", desc: "Entrega rápida em todo o Brasil" }
 ];
 
 export const NAV_ITEMS = [

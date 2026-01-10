@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, Loader2, AlertCircle, ArrowRight, CreditCard, CheckCircle2, Sparkles } from 'lucide-react';
+import { Search, Loader2, AlertCircle, ArrowRight, CreditCard, Sparkles } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCompanyByCnpj } from '../services/api';
 import { CompanyData } from '../types';
 import { CompanyDetails } from './CompanyDetails';
-import { AFFILIATE_LINK, TON_BENEFITS, MACHINE_MODELS } from '../constants';
+import { AFFILIATE_LINK, TON_BENEFITS, MACHINE_MODELS_DATA } from '../constants';
 
 const HomePromoBanner: React.FC = () => {
   return (
@@ -25,18 +25,18 @@ const HomePromoBanner: React.FC = () => {
           </div>
           
           <h2 className="text-3xl font-black text-slate-900 md:text-5xl uppercase tracking-tighter leading-[0.85] mb-4">
-            Taxas a partir de <br />
-            <span className="text-white drop-shadow-sm">0,74% ao mês</span>
+            As Melhores Taxas <br />
+            <span className="text-white drop-shadow-sm">Para Seu Negócio</span>
           </h2>
           
           <p className="mb-8 max-w-md text-sm font-bold text-slate-900 md:text-lg leading-tight opacity-90">
-            Garanta até <span className="underline decoration-slate-900 decoration-2">73% de desconto</span> na adesão. 
-            Sem aluguel e com garantia vitalícia para o seu negócio!
+            Garanta descontos exclusivos na adesão da sua maquininha. 
+            Sem aluguel e com garantia vitalícia inclusa!
           </p>
 
           <div className="flex items-center gap-4">
-            <div className="flex h-14 items-center justify-center rounded-full bg-slate-900 px-10 text-base font-black text-white shadow-2xl transition-all group-hover:scale-105 active:scale-95">
-              EU QUERO O DESCONTO <ArrowRight className="ml-2 h-5 w-5 text-lime-400" />
+            <div className="flex h-14 items-center justify-center rounded-full bg-slate-900 px-10 text-base font-black text-white shadow-2xl transition-all group-hover:scale-105 active:scale-95 text-center">
+              PEÇA JÁ SUA MAQUININHA <ArrowRight className="ml-2 h-5 w-5 text-lime-400" />
             </div>
           </div>
         </div>
@@ -58,9 +58,9 @@ const HomePromoBanner: React.FC = () => {
           </div>
           
           <div className="mt-6 flex flex-wrap gap-3">
-            {MACHINE_MODELS.slice(0, 3).map((model, i) => (
+            {MACHINE_MODELS_DATA.slice(0, 3).map((model, i) => (
               <span key={i} className="rounded-md bg-slate-900/10 px-2 py-1 text-[10px] font-black text-slate-900 uppercase">
-                {model}
+                {model.name}
               </span>
             ))}
           </div>

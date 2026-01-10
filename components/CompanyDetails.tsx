@@ -1,17 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { CompanyData } from '../types';
-import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight, Percent, Sparkles } from 'lucide-react';
-import { AFFILIATE_LINK, MACHINE_MODELS, TON_BENEFITS } from '../constants';
+import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight, Truck, Sparkles, X } from 'lucide-react';
+import { AFFILIATE_LINK, MACHINE_MODELS_DATA } from '../constants';
 
 // Ton Custom Banner Component
 const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> = ({ type, modelIndex }) => {
-  const modelName = MACHINE_MODELS[modelIndex % MACHINE_MODELS.length];
+  const model = MACHINE_MODELS_DATA[modelIndex % MACHINE_MODELS_DATA.length];
 
   if (type === 'horizontal') {
     return (
       <a 
-        href={AFFILIATE_LINK}
+        href={model.link}
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex w-full overflow-hidden rounded-xl border border-lime-400 bg-gradient-to-r from-lime-400 to-lime-500 p-4 shadow-md transition-all hover:shadow-lg md:p-6"
@@ -24,15 +24,12 @@ const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> =
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="inline-block rounded bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-lime-400 uppercase tracking-wider">Ton</span>
-                <h4 className="text-lg font-black text-slate-900 md:text-2xl uppercase tracking-tighter">{modelName}</h4>
+                <h4 className="text-lg font-black text-slate-900 md:text-2xl uppercase tracking-tighter">{model.name}</h4>
               </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-1">
-                 {TON_BENEFITS.slice(0, 2).map((b, i) => (
-                   <div key={i} className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-                     <b.icon className="h-3.5 w-3.5 text-slate-900" />
-                     <span>{b.title}</span>
-                   </div>
-                 ))}
+              <p className="text-xs font-bold text-slate-900 mb-1">{model.desc}</p>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900/70">
+                 <Truck className="h-3.5 w-3.5" />
+                 <span>{model.benefit}</span>
               </div>
             </div>
           </div>
@@ -40,16 +37,12 @@ const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> =
           <div className="mt-4 flex items-center justify-between md:mt-0 gap-6">
             <div className="hidden lg:flex items-center gap-4 border-l border-slate-900/10 pl-6">
                <div className="flex flex-col items-center text-center">
-                  <Percent className="h-4 w-4 text-slate-900 mb-0.5" />
-                  <span className="text-[10px] font-bold text-slate-900 uppercase leading-none">Menores Taxas</span>
-               </div>
-               <div className="flex flex-col items-center text-center">
                   <Sparkles className="h-4 w-4 text-slate-900 mb-0.5" />
                   <span className="text-[10px] font-bold text-slate-900 uppercase leading-none">Garantia Vitalícia</span>
                </div>
             </div>
-            <div className="flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-lime-400 shadow-lg transition-transform group-hover:scale-105 active:scale-95">
-              Aproveitar 73% OFF <ArrowRight className="h-4 w-4" />
+            <div className="flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-lime-400 shadow-lg transition-transform group-hover:scale-105 active:scale-95 whitespace-nowrap uppercase tracking-tighter">
+              peça já sua maquininha <ArrowRight className="h-4 w-4" />
             </div>
           </div>
         </div>
@@ -60,7 +53,7 @@ const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> =
 
   return (
     <a 
-      href={AFFILIATE_LINK}
+      href={model.link}
       target="_blank"
       rel="noopener noreferrer"
       className="group flex flex-col overflow-hidden rounded-xl border border-lime-400 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-md"
@@ -68,21 +61,26 @@ const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> =
       <div className="relative h-28 w-full bg-gradient-to-br from-lime-400 to-lime-500 p-6 flex flex-col items-center justify-center">
         <CreditCard className="h-16 w-16 text-slate-900 opacity-10 absolute -right-2 -bottom-2 rotate-12" />
         <span className="inline-block rounded-full bg-slate-900 px-3 py-1 text-[10px] font-bold text-lime-400 uppercase tracking-widest mb-1 shadow-sm">Maquininha Ton</span>
-        <h4 className="text-xl font-black text-slate-900 text-center uppercase tracking-tighter">{modelName}</h4>
+        <h4 className="text-xl font-black text-slate-900 text-center uppercase tracking-tighter">{model.name}</h4>
       </div>
       <div className="p-5 flex flex-col h-full">
         <div className="space-y-3 mb-6 flex-1">
-          {TON_BENEFITS.map((benefit, i) => (
-            <div key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
-              <div className="h-6 w-6 rounded-full bg-lime-100 dark:bg-lime-900/30 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="h-4 w-4 text-lime-600" />
-              </div>
-              <span className="text-xs font-bold">{benefit.desc}</span>
+          <p className="text-sm font-bold text-slate-800 dark:text-slate-200 leading-tight mb-2">{model.desc}</p>
+          <div className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <div className="h-6 w-6 rounded-full bg-lime-100 dark:bg-lime-900/30 flex items-center justify-center shrink-0">
+              <Truck className="h-4 w-4 text-lime-600" />
             </div>
-          ))}
+            <span className="text-xs font-bold">{model.benefit}</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <div className="h-6 w-6 rounded-full bg-lime-100 dark:bg-lime-900/30 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="h-4 w-4 text-lime-600" />
+            </div>
+            <span className="text-xs font-bold">Garantia Vitalícia</span>
+          </div>
         </div>
-        <div className="w-full rounded-lg bg-slate-900 py-3.5 text-center text-sm font-bold text-lime-400 shadow-md transition-all group-hover:bg-slate-800 group-hover:shadow-lg active:scale-95 flex items-center justify-center gap-2">
-          Ver Ofertas Ton <ArrowRight className="h-4 w-4" />
+        <div className="w-full rounded-lg bg-slate-900 py-3.5 text-center text-sm font-bold text-lime-400 shadow-md transition-all group-hover:bg-slate-800 group-hover:shadow-lg active:scale-95 flex items-center justify-center gap-2 uppercase tracking-wide">
+          ver oferta ton <ArrowRight className="h-4 w-4" />
         </div>
       </div>
     </a>
@@ -205,6 +203,7 @@ interface CompanyDetailsProps {
 
 export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isQsaModalOpen, setIsQsaModalOpen] = useState(false);
 
   useEffect(() => {
     if (data && data.razao_social) {
@@ -266,6 +265,7 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
+      {/* Ad Pos 1: Under Summary */}
       <ResponsiveAd isMobile={isMobile} modelIndex={0} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -301,6 +301,7 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
+      {/* Ad Pos 2: Under Location Grid */}
       <ResponsiveAd isMobile={isMobile} modelIndex={1} />
 
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
@@ -328,61 +329,72 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
         </div>
       </div>
 
+      {/* Ad Pos 3: Under Economic Activities */}
       <ResponsiveAd isMobile={isMobile} modelIndex={2} />
 
-      <div className="bg-white dark:bg-slate-900 rounded-lg p-6 shadow-sm">
-          <h3 className="font-bold text-slate-900 dark:text-white mb-2">Regime Tributário</h3>
-          <div className="flex flex-col gap-0.5">
-             {data.opcao_pelo_simples ? (
-               <>
-                 <div>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">Simples Nacional</p>
-                    {data.data_opcao_pelo_simples && <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_simples)}</p>}
-                 </div>
-                 {data.opcao_pelo_mei && (
-                   <div className="mt-2">
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">MEI (Microempreendedor)</p>
-                      {data.data_opcao_pelo_mei && <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_mei)}</p>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white dark:bg-slate-900 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-800">
+            <h3 className="font-bold text-slate-900 dark:text-white mb-2">Regime Tributário</h3>
+            <div className="flex flex-col gap-0.5">
+               {data.opcao_pelo_simples ? (
+                 <>
+                   <div>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">Simples Nacional</p>
+                      {data.data_opcao_pelo_simples && <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_simples)}</p>}
                    </div>
-                 )}
-               </>
-             ) : (
-               <div className="py-1">
-                  <p className="text-sm font-medium text-slate-900 dark:text-white">Lucro Real ou Presumido</p>
-                  <p className="text-xs text-slate-500">Não optante pelo Simples Nacional</p>
-               </div>
-             )}
-             <div className="py-1 mt-1">
-                 <p className="text-sm font-medium text-slate-900 dark:text-white">{data.descricao_porte}</p>
-             </div>
-          </div>
-       </div>
-
-      <ResponsiveAd isMobile={isMobile} modelIndex={3} />
-
-      <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
-          <div className="flex items-center justify-between mb-4">
-             <h3 className="font-bold text-slate-900 dark:text-white">Sócios e Administradores</h3>
-             <div className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-slate-600">{data.qsa ? data.qsa.length : 0}</div>
-          </div>
-          {data.qsa && data.qsa.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-               {data.qsa.map((socio, idx) => (
-                  <div key={idx} className="flex flex-col bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 p-4 rounded-lg">
-                     <div className="flex items-start gap-3 mb-2">
-                        <div className="bg-white dark:bg-slate-800 p-2 rounded-full shrink-0 shadow-sm"><Users className="w-4 h-4 text-slate-500" /></div>
-                        <div className="min-w-0 flex-1"><CopyableValue value={socio.nome_socio} className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate block uppercase" /></div>
+                   {data.opcao_pelo_mei && (
+                     <div className="mt-2">
+                        <p className="text-sm font-medium text-slate-900 dark:text-white">MEI (Microempreendedor)</p>
+                        {data.data_opcao_pelo_mei && <p className="text-xs text-slate-500">Desde {formatDate(data.data_opcao_pelo_mei)}</p>}
                      </div>
-                     <div className="text-xs text-slate-500 space-y-1"><p>Entrada: {socio.data_entrada_sociedade}</p></div>
-                  </div>
-               ))}
+                   )}
+                 </>
+               ) : (
+                 <div className="py-1">
+                    <p className="text-sm font-medium text-slate-900 dark:text-white">Lucro Real ou Presumido</p>
+                    <p className="text-xs text-slate-500">Não optante pelo Simples Nacional</p>
+                 </div>
+               )}
+               <div className="py-1 mt-1">
+                   <p className="text-sm font-medium text-slate-900 dark:text-white">{data.descricao_porte}</p>
+               </div>
             </div>
-          ) : (
-             <div className="text-center py-6 text-slate-500 text-sm">Esta empresa não possui sócios informados na base de dados.</div>
-          )}
-       </div>
+         </div>
 
-       <ResponsiveAd isMobile={isMobile} modelIndex={4} />
+         <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+            <div className="flex items-center justify-between mb-4">
+               <h3 className="font-bold text-slate-900 dark:text-white">Sócios e Administradores</h3>
+               <div className="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-slate-600">{data.qsa ? data.qsa.length : 0}</div>
+            </div>
+            {data.qsa && data.qsa.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4">
+                 {data.qsa.slice(0, 3).map((socio, idx) => (
+                    <div key={idx} className="flex flex-col bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 p-4 rounded-lg">
+                       <div className="flex items-start gap-3">
+                          <Users className="w-4 h-4 text-slate-500 mt-0.5" />
+                          <div className="min-w-0 flex-1">
+                            <CopyableValue value={socio.nome_socio} className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate block uppercase" />
+                          </div>
+                       </div>
+                    </div>
+                 ))}
+                 {data.qsa.length > 3 && (
+                    <button 
+                      onClick={() => setIsQsaModalOpen(true)}
+                      className="text-xs text-emerald-600 hover:text-emerald-700 font-bold text-center underline decoration-dotted underline-offset-4 pt-2"
+                    >
+                      + {data.qsa.length - 3} outros sócios
+                    </button>
+                 )}
+              </div>
+            ) : (
+               <div className="text-center py-6 text-slate-500 text-sm">Esta empresa não possui sócios informados.</div>
+            )}
+         </div>
+      </div>
+
+       {/* Ad Pos 4: Under Registry Info */}
+       <ResponsiveAd isMobile={isMobile} modelIndex={3} />
 
        <div className="space-y-4 pt-4">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">FAQ - Perguntas e Respostas</h2>
@@ -394,7 +406,59 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
        </div>
 
-       <ResponsiveAd isMobile={isMobile} modelIndex={5} />
+       {/* QSA Modal */}
+       {isQsaModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
+             <div className="bg-white dark:bg-slate-900 w-full max-w-2xl max-h-[80vh] rounded-2xl shadow-2xl flex flex-col border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200">
+                <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                   <div>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white">Quadro de Sócios e Administradores</h3>
+                      <p className="text-sm text-slate-500">{data.qsa?.length} registros encontrados</p>
+                   </div>
+                   <button 
+                     onClick={() => setIsQsaModalOpen(false)}
+                     className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                   >
+                     <X className="w-5 h-5 text-slate-500" />
+                   </button>
+                </div>
+                <div className="flex-1 overflow-y-auto p-6">
+                   <div className="grid gap-3">
+                      {data.qsa?.map((socio, idx) => (
+                        <div key={idx} className="bg-slate-50 dark:bg-slate-950/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+                           <div className="flex items-start gap-4">
+                              <div className="h-10 w-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center border border-slate-100 dark:border-slate-700 shrink-0">
+                                 <Users className="w-5 h-5 text-slate-400" />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                 <h4 className="font-black text-slate-900 dark:text-slate-100 uppercase text-sm">{socio.nome_socio}</h4>
+                                 <div className="mt-2 flex flex-wrap gap-4 text-xs font-bold text-slate-500">
+                                    <div className="flex items-center gap-1.5">
+                                       <span className="text-slate-400 uppercase">Cargo/Qualificação:</span>
+                                       <span className="text-slate-700 dark:text-slate-300">{socio.codigo_qualificacao_socio}</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                       <span className="text-slate-400 uppercase">Entrada:</span>
+                                       <span className="text-slate-700 dark:text-slate-300">{socio.data_entrada_sociedade}</span>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                      ))}
+                   </div>
+                </div>
+                <div className="p-4 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800 text-center">
+                   <button 
+                     onClick={() => setIsQsaModalOpen(false)}
+                     className="px-6 py-2 bg-slate-900 text-white rounded-lg text-sm font-bold uppercase"
+                   >
+                     Fechar
+                   </button>
+                </div>
+             </div>
+          </div>
+       )}
     </div>
   );
 };
