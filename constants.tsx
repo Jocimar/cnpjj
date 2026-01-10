@@ -10,27 +10,28 @@ import {
   ShieldCheck,
   Clock,
   Truck,
-  CreditCard
+  CreditCard,
+  Percent,
+  Infinity
 } from 'lucide-react';
 
 export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
 
-export const PAGBANK_AFFILIATE_LINK = "https://pagbank.vc/indica-maquininhas-a58abebd9";
+export const AFFILIATE_LINK = "https://ton.com.br/catalogo/?referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&utm_medium=invite_share&utm_source=revendedor";
 
 export const MACHINE_MODELS = [
-  "Moderninha Pro 2",
-  "Moderninha ProFit",
-  "Moderninha Smart 2",
-  "Minizinha Chip 3",
-  "Moderninha Plus 2",
-  "Minizinha NFC 2"
+  "Ton T3 Smart",
+  "Ton T3",
+  "Ton T2+",
+  "Ton T1 Chip",
+  "Ton T1"
 ];
 
-export const PAGBANK_BENEFITS = [
-  { icon: Ban, title: "Sem aluguel", desc: "Livre-se do aluguel" },
-  { icon: ShieldCheck, title: "Garantia", desc: "Maquininhas com 5 anos de garantia" },
-  { icon: Clock, title: "Dinheiro na hora", desc: "Receba seu dinheiro na hora" },
-  { icon: Truck, title: "Frete grátis", desc: "Entrega rápida garantida" }
+export const TON_BENEFITS = [
+  { icon: Percent, title: "Taxas a partir de 0,74%", desc: "As melhores taxas do mercado" },
+  { icon: Ban, title: "Sem aluguel", desc: "A máquina é sua de verdade" },
+  { icon: Infinity, title: "Garantia Vitalícia", desc: "Segurança total para sempre" },
+  { icon: Clock, title: "Receba na hora", desc: "Venda e receba o dinheiro rápido" }
 ];
 
 export const NAV_ITEMS = [
@@ -39,7 +40,7 @@ export const NAV_ITEMS = [
     items: [
       { title: 'Consulta CNPJ', href: '/', icon: Search },
       { title: 'Status do Serviço', href: '/status', icon: Activity },
-      { title: 'Maquininha de Cartão', href: PAGBANK_AFFILIATE_LINK, icon: CreditCard, external: true },
+      { title: 'Maquininha de Cartão', href: AFFILIATE_LINK, icon: CreditCard, external: true },
     ],
   },
   {
@@ -64,7 +65,7 @@ export const FOOTER_LINKS = [
     items: [
       { title: 'Consulta CNPJ', href: '/', icon: Search },
       { title: 'Status do Serviço', href: '/status', icon: Activity },
-      { title: 'Maquininha de Cartão', href: PAGBANK_AFFILIATE_LINK, icon: CreditCard, external: true },
+      { title: 'Maquininha de Cartão', href: AFFILIATE_LINK, icon: CreditCard, external: true },
     ],
   },
   {

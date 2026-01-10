@@ -1,35 +1,35 @@
 
 import React, { useState, useEffect } from 'react';
 import { CompanyData } from '../types';
-import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight } from 'lucide-react';
-import { PAGBANK_AFFILIATE_LINK, MACHINE_MODELS, PAGBANK_BENEFITS } from '../constants';
+import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight, Percent, Sparkles } from 'lucide-react';
+import { AFFILIATE_LINK, MACHINE_MODELS, TON_BENEFITS } from '../constants';
 
-// PagBank Custom Banner Component
-const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> = ({ type, modelIndex }) => {
+// Ton Custom Banner Component
+const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> = ({ type, modelIndex }) => {
   const modelName = MACHINE_MODELS[modelIndex % MACHINE_MODELS.length];
 
   if (type === 'horizontal') {
     return (
       <a 
-        href={PAGBANK_AFFILIATE_LINK}
+        href={AFFILIATE_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex w-full overflow-hidden rounded-xl border border-yellow-400 bg-gradient-to-r from-yellow-400 to-yellow-500 p-4 shadow-md transition-all hover:shadow-lg md:p-6"
+        className="group relative flex w-full overflow-hidden rounded-xl border border-lime-400 bg-gradient-to-r from-lime-400 to-lime-500 p-4 shadow-md transition-all hover:shadow-lg md:p-6"
       >
         <div className="flex w-full flex-col md:flex-row md:items-center md:justify-between relative z-10">
           <div className="flex items-center gap-4">
-            <div className="hidden h-14 w-14 items-center justify-center rounded-full bg-white/30 md:flex shadow-inner">
-              <CreditCard className="h-7 w-7 text-slate-900" />
+            <div className="hidden h-14 w-14 items-center justify-center rounded-full bg-slate-900 md:flex shadow-xl">
+              <CreditCard className="h-7 w-7 text-lime-400" />
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="inline-block rounded bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider">PagBank</span>
+                <span className="inline-block rounded bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-lime-400 uppercase tracking-wider">Ton</span>
                 <h4 className="text-lg font-black text-slate-900 md:text-2xl uppercase tracking-tighter">{modelName}</h4>
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-1">
-                 {PAGBANK_BENEFITS.slice(0, 2).map((b, i) => (
-                   <div key={i} className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                     <b.icon className="h-3.5 w-3.5" />
+                 {TON_BENEFITS.slice(0, 2).map((b, i) => (
+                   <div key={i} className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+                     <b.icon className="h-3.5 w-3.5 text-slate-900" />
                      <span>{b.title}</span>
                    </div>
                  ))}
@@ -39,15 +39,17 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
           
           <div className="mt-4 flex items-center justify-between md:mt-0 gap-6">
             <div className="hidden lg:flex items-center gap-4 border-l border-slate-900/10 pl-6">
-               {PAGBANK_BENEFITS.slice(2).map((b, i) => (
-                 <div key={i} className="flex flex-col items-center text-center">
-                    <b.icon className="h-4 w-4 text-slate-900 mb-0.5" />
-                    <span className="text-[10px] font-bold text-slate-800 uppercase leading-none">{b.title}</span>
-                 </div>
-               ))}
+               <div className="flex flex-col items-center text-center">
+                  <Percent className="h-4 w-4 text-slate-900 mb-0.5" />
+                  <span className="text-[10px] font-bold text-slate-900 uppercase leading-none">Menores Taxas</span>
+               </div>
+               <div className="flex flex-col items-center text-center">
+                  <Sparkles className="h-4 w-4 text-slate-900 mb-0.5" />
+                  <span className="text-[10px] font-bold text-slate-900 uppercase leading-none">Garantia Vitalícia</span>
+               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-white shadow-lg transition-transform group-hover:scale-105 active:scale-95">
-              Ver Ofertas <ArrowRight className="h-4 w-4" />
+            <div className="flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-bold text-lime-400 shadow-lg transition-transform group-hover:scale-105 active:scale-95">
+              Aproveitar 73% OFF <ArrowRight className="h-4 w-4" />
             </div>
           </div>
         </div>
@@ -58,29 +60,29 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
 
   return (
     <a 
-      href={PAGBANK_AFFILIATE_LINK}
+      href={AFFILIATE_LINK}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col overflow-hidden rounded-xl border border-yellow-400 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-md"
+      className="group flex flex-col overflow-hidden rounded-xl border border-lime-400 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-md"
     >
-      <div className="relative h-28 w-full bg-gradient-to-br from-yellow-400 to-yellow-500 p-6 flex flex-col items-center justify-center">
+      <div className="relative h-28 w-full bg-gradient-to-br from-lime-400 to-lime-500 p-6 flex flex-col items-center justify-center">
         <CreditCard className="h-16 w-16 text-slate-900 opacity-10 absolute -right-2 -bottom-2 rotate-12" />
-        <span className="inline-block rounded-full bg-slate-900 px-3 py-1 text-[10px] font-bold text-white uppercase tracking-widest mb-1 shadow-sm">PagBank</span>
+        <span className="inline-block rounded-full bg-slate-900 px-3 py-1 text-[10px] font-bold text-lime-400 uppercase tracking-widest mb-1 shadow-sm">Maquininha Ton</span>
         <h4 className="text-xl font-black text-slate-900 text-center uppercase tracking-tighter">{modelName}</h4>
       </div>
       <div className="p-5 flex flex-col h-full">
         <div className="space-y-3 mb-6 flex-1">
-          {PAGBANK_BENEFITS.map((benefit, i) => (
+          {TON_BENEFITS.map((benefit, i) => (
             <div key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
-              <div className="h-6 w-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+              <div className="h-6 w-6 rounded-full bg-lime-100 dark:bg-lime-900/30 flex items-center justify-center shrink-0">
+                <CheckCircle2 className="h-4 w-4 text-lime-600" />
               </div>
-              <span>{benefit.desc}</span>
+              <span className="text-xs font-bold">{benefit.desc}</span>
             </div>
           ))}
         </div>
-        <div className="w-full rounded-lg bg-emerald-600 py-3.5 text-center text-sm font-bold text-white shadow-md transition-all group-hover:bg-emerald-700 group-hover:shadow-lg active:scale-95 flex items-center justify-center gap-2">
-          Ver Ofertas <ArrowRight className="h-4 w-4" />
+        <div className="w-full rounded-lg bg-slate-900 py-3.5 text-center text-sm font-bold text-lime-400 shadow-md transition-all group-hover:bg-slate-800 group-hover:shadow-lg active:scale-95 flex items-center justify-center gap-2">
+          Ver Ofertas Ton <ArrowRight className="h-4 w-4" />
         </div>
       </div>
     </a>
@@ -90,9 +92,9 @@ const PagBankBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number 
 const ResponsiveAd = ({ isMobile, modelIndex }: { isMobile: boolean, modelIndex: number }) => (
   <div className="w-full">
     {isMobile ? (
-      <PagBankBanner type="card" modelIndex={modelIndex} />
+      <TonBanner type="card" modelIndex={modelIndex} />
     ) : (
-      <PagBankBanner type="horizontal" modelIndex={modelIndex} />
+      <TonBanner type="horizontal" modelIndex={modelIndex} />
     )}
   </div>
 );

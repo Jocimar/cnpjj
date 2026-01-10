@@ -1,73 +1,75 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, Loader2, AlertCircle, ArrowRight, CreditCard, CheckCircle2 } from 'lucide-react';
+import { Search, Loader2, AlertCircle, ArrowRight, CreditCard, CheckCircle2, Sparkles } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCompanyByCnpj } from '../services/api';
 import { CompanyData } from '../types';
 import { CompanyDetails } from './CompanyDetails';
-import { PAGBANK_AFFILIATE_LINK, PAGBANK_BENEFITS, MACHINE_MODELS } from '../constants';
+import { AFFILIATE_LINK, TON_BENEFITS, MACHINE_MODELS } from '../constants';
 
 const HomePromoBanner: React.FC = () => {
   return (
     <a 
-      href={PAGBANK_AFFILIATE_LINK}
+      href={AFFILIATE_LINK}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative block w-full overflow-hidden rounded-xl border border-yellow-400 bg-gradient-to-br from-yellow-400 via-yellow-400 to-yellow-500 shadow-lg transition-all hover:shadow-xl hover:-translate-y-1 md:min-h-[300px]"
+      className="group relative block w-full overflow-hidden rounded-2xl border border-lime-400 bg-gradient-to-br from-lime-400 via-lime-500 to-emerald-600 shadow-xl transition-all hover:shadow-2xl hover:-translate-y-1 md:min-h-[320px]"
     >
       <div className="flex h-full flex-col md:flex-row">
-        {/* Left Side: Text & Headline */}
-        <div className="relative z-10 flex flex-1 flex-col justify-center p-6 md:p-10">
-          <div className="mb-2 flex items-center gap-2">
-            <span className="rounded bg-slate-900 px-2 py-0.5 text-[10px] font-bold text-white uppercase tracking-widest">Oferta PagBank</span>
-            <span className="text-[10px] font-bold text-slate-900 uppercase tracking-widest border-l border-slate-900/20 pl-2">Melhor Maquininha</span>
+        {/* Left Side: Headline */}
+        <div className="relative z-10 flex flex-[1.2] flex-col justify-center p-6 md:p-10">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-[10px] font-black text-lime-400 uppercase tracking-widest">
+              <Sparkles className="h-3 w-3" /> Oferta Exclusiva Ton
+            </span>
           </div>
           
-          <h2 className="text-2xl font-black text-slate-900 md:text-4xl uppercase tracking-tighter leading-[0.9] mb-4">
-            A Solução Completa <br /> para seu Negócio
+          <h2 className="text-3xl font-black text-slate-900 md:text-5xl uppercase tracking-tighter leading-[0.85] mb-4">
+            Taxas a partir de <br />
+            <span className="text-white drop-shadow-sm">0,74% ao mês</span>
           </h2>
           
-          <p className="mb-6 max-w-md text-sm font-bold text-slate-800 md:text-base leading-snug">
-            Moderninha ou Minizinha: a máquina ideal com as melhores vantagens do mercado.
+          <p className="mb-8 max-w-md text-sm font-bold text-slate-900 md:text-lg leading-tight opacity-90">
+            Garanta até <span className="underline decoration-slate-900 decoration-2">73% de desconto</span> na adesão. 
+            Sem aluguel e com garantia vitalícia para o seu negócio!
           </p>
 
           <div className="flex items-center gap-4">
-            <div className="flex h-12 items-center justify-center rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all group-hover:scale-105 active:scale-95">
-              Ver Ofertas <ArrowRight className="ml-2 h-4 w-4" />
+            <div className="flex h-14 items-center justify-center rounded-full bg-slate-900 px-10 text-base font-black text-white shadow-2xl transition-all group-hover:scale-105 active:scale-95">
+              EU QUERO O DESCONTO <ArrowRight className="ml-2 h-5 w-5 text-lime-400" />
             </div>
           </div>
         </div>
 
-        {/* Right Side: Benefits Grid */}
-        <div className="relative z-10 flex flex-1 flex-col justify-center bg-white/10 p-6 md:p-8 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {PAGBANK_BENEFITS.map((benefit, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-lg bg-white/40 p-3 md:bg-white/30 backdrop-blur-md border border-white/20 shadow-sm transition-transform group-hover:scale-[1.02]">
-                <div className="mt-0.5 rounded-full bg-slate-900 p-1">
-                  <benefit.icon className="h-3.5 w-3.5 text-yellow-400" />
+        {/* Right Side: Benefits */}
+        <div className="relative z-10 flex flex-1 flex-col justify-center bg-black/5 p-6 md:p-10 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0 border-t border-white/10 md:border-t-0 md:border-l">
+          <div className="grid grid-cols-1 gap-3">
+            {TON_BENEFITS.slice(0, 3).map((benefit, i) => (
+              <div key={i} className="flex items-center gap-4 rounded-xl bg-white/20 p-4 backdrop-blur-md border border-white/30 shadow-sm transition-transform group-hover:translate-x-2">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-900 text-lime-400 shadow-lg">
+                  <benefit.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-black text-slate-900 uppercase leading-none mb-1">{benefit.title}</h4>
-                  <p className="text-[10px] font-bold text-slate-800 leading-tight">{benefit.desc}</p>
+                  <h4 className="text-sm font-black text-slate-900 uppercase leading-none mb-1">{benefit.title}</h4>
+                  <p className="text-xs font-bold text-slate-900/70 leading-tight">{benefit.desc}</p>
                 </div>
               </div>
             ))}
           </div>
           
-          {/* Models list tag cloud style */}
-          <div className="mt-6 flex flex-wrap gap-2">
-            {MACHINE_MODELS.slice(0, 4).map((model, i) => (
-              <span key={i} className="text-[9px] font-black text-slate-900/60 uppercase tracking-tight">
-                • {model}
+          <div className="mt-6 flex flex-wrap gap-3">
+            {MACHINE_MODELS.slice(0, 3).map((model, i) => (
+              <span key={i} className="rounded-md bg-slate-900/10 px-2 py-1 text-[10px] font-black text-slate-900 uppercase">
+                {model}
               </span>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Decorative Icons Background */}
-      <CreditCard className="absolute -bottom-8 -left-8 h-48 w-48 text-slate-900/5 rotate-12 pointer-events-none" />
-      <div className="absolute top-0 right-0 h-full w-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent pointer-events-none"></div>
+      {/* Decorative Background */}
+      <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
+      <CreditCard className="absolute -bottom-10 -right-10 h-64 w-64 text-slate-900/5 -rotate-12 pointer-events-none" />
     </a>
   );
 };
