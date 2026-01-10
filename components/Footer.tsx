@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
               <span>CNPJJ</span>
             </div>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Sua ferramenta confiável para consulta de dados públicos de empresas brasileiras, enriquecida com análise de inteligência artificial.
+              Sua ferramenta confiável para consulta de dados públicos de empresas brasileiras.
             </p>
           </div>
 

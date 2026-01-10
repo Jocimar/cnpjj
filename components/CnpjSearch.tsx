@@ -30,13 +30,13 @@ const HomePromoBanner: React.FC = () => {
           </h2>
           
           <p className="mb-8 max-w-md text-sm font-bold text-slate-900 md:text-lg leading-tight opacity-90">
-            Garanta descontos exclusivos na adesão da sua maquininha. 
-            Sem aluguel e com garantia vitalícia inclusa!
+            Aumente suas vendas com a tecnologia Ton. 
+            Sem aluguel e com garantia vitalícia inclusa para sua tranquilidade!
           </p>
 
           <div className="flex items-center gap-4">
-            <div className="flex h-14 items-center justify-center rounded-full bg-slate-900 px-10 text-base font-black text-white shadow-2xl transition-all group-hover:scale-105 active:scale-95 text-center">
-              PEÇA JÁ SUA MAQUININHA <ArrowRight className="ml-2 h-5 w-5 text-lime-400" />
+            <div className="flex h-14 items-center justify-center rounded-full bg-slate-900 px-10 text-base font-black text-white shadow-2xl transition-all group-hover:scale-105 active:scale-95 text-center uppercase tracking-tighter">
+              Peça já sua maquininha <ArrowRight className="ml-2 h-5 w-5 text-lime-400" />
             </div>
           </div>
         </div>

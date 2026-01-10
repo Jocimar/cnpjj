@@ -7,7 +7,6 @@ import {
   Shield,
   FileText,
   Ban,
-  Search as SearchIcon,
   Clock,
   Truck,
   CreditCard,
