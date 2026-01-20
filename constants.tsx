@@ -11,12 +11,19 @@ import {
   Truck,
   CreditCard,
   Percent,
-  Infinity
+  Infinity,
+  LayoutDashboard,
+  Zap,
+  CheckCircle,
+  Users2,
+  TrendingUp
 } from 'lucide-react';
 
 export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
 
 export const AFFILIATE_LINK = "https://ton.com.br/catalogo/?referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&utm_medium=invite_share&utm_source=revendedor";
+
+export const SMB_STORE_LINK = "https://indiquesmb.com/cnpjj";
 
 export const MACHINE_MODELS_DATA = [
   {
@@ -45,6 +52,23 @@ export const MACHINE_MODELS_DATA = [
   }
 ];
 
+export const SMB_STORE_DATA = {
+  title: "Sistema SMB Store",
+  headline: "O fim das planilhas e do caderno!",
+  desc: "O sistema leve para seu caixa não travar. Controle tudo no balcão de forma simples e direta.",
+  benefits: [
+    { icon: LayoutDashboard, text: "Controle vendas, estoque e clientes" },
+    { icon: Zap, text: "Sistema leve que não trava seu caixa" },
+    { icon: Users2, text: "+30 mil empreendedores já confiam" }
+  ],
+  stats: [
+    { label: "Clientes", value: "30k+" },
+    { label: "Seguidores", value: "70k+" }
+  ],
+  cta: "Testar Sistema Grátis",
+  link: SMB_STORE_LINK
+};
+
 export const TON_BENEFITS = [
   { icon: Percent, title: "Melhores Taxas", desc: "Taxas competitivas para o seu negócio" },
   { icon: Ban, title: "Sem aluguel", desc: "A máquina é sua de verdade" },
@@ -59,6 +83,7 @@ export const NAV_ITEMS = [
       { title: 'Consulta CNPJ', href: '/', icon: Search },
       { title: 'Status do Serviço', href: '/status', icon: Activity },
       { title: 'Maquininha de Cartão', href: AFFILIATE_LINK, icon: CreditCard, external: true },
+      { title: 'Controle Financeiro', href: SMB_STORE_LINK, icon: LayoutDashboard, external: true },
     ],
   },
   {
@@ -84,6 +109,7 @@ export const FOOTER_LINKS = [
       { title: 'Consulta CNPJ', href: '/', icon: Search },
       { title: 'Status do Serviço', href: '/status', icon: Activity },
       { title: 'Maquininha de Cartão', href: AFFILIATE_LINK, icon: CreditCard, external: true },
+      { title: 'Controle Financeiro', href: SMB_STORE_LINK, icon: LayoutDashboard, external: true },
     ],
   },
   {

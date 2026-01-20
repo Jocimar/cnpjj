@@ -1,8 +1,79 @@
 
 import React, { useState, useEffect } from 'react';
 import { CompanyData } from '../types';
-import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight, Truck, Sparkles, X } from 'lucide-react';
-import { AFFILIATE_LINK, MACHINE_MODELS_DATA } from '../constants';
+import { MapPin, Users, Building2, ChevronDown, ChevronUp, CreditCard, CheckCircle2, ArrowRight, Truck, Sparkles, X, LayoutDashboard, Zap, MousePointerClick } from 'lucide-react';
+import { AFFILIATE_LINK, MACHINE_MODELS_DATA, SMB_STORE_DATA } from '../constants';
+
+// SMB Store Banner Component
+const SMBBanner: React.FC<{ type: 'horizontal' | 'card' }> = ({ type }) => {
+  if (type === 'horizontal') {
+    return (
+      <a 
+        href={SMB_STORE_DATA.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group relative flex w-full overflow-hidden rounded-xl border border-slate-700 bg-[#1c222a] p-4 shadow-md transition-all hover:shadow-lg md:p-6"
+      >
+        <div className="flex w-full flex-col md:flex-row md:items-center md:justify-between relative z-10">
+          <div className="flex items-center gap-4">
+            <div className="hidden h-14 w-14 items-center justify-center rounded-full bg-[#7cb50a] md:flex shadow-xl">
+              <LayoutDashboard className="h-7 w-7 text-[#1c222a]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="inline-block rounded bg-[#7cb50a] px-2 py-0.5 text-[10px] font-bold text-[#1c222a] uppercase tracking-wider">SMB Store</span>
+                <h4 className="text-lg font-black text-white md:text-2xl uppercase tracking-tighter">{SMB_STORE_DATA.headline}</h4>
+              </div>
+              <p className="text-xs font-bold text-slate-400 mb-1">{SMB_STORE_DATA.desc}</p>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#7cb50a]">
+                 <CheckCircle2 className="h-3.5 w-3.5" />
+                 <span>Mais de 30 mil empreendedores já usam</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-4 flex items-center justify-between md:mt-0 gap-6">
+            <div className="flex items-center gap-2 rounded-full bg-[#7cb50a] px-6 py-3 text-sm font-bold text-[#1c222a] shadow-lg transition-transform group-hover:scale-105 active:scale-95 whitespace-nowrap uppercase tracking-tighter">
+              {SMB_STORE_DATA.cta} <ArrowRight className="h-4 w-4" />
+            </div>
+          </div>
+        </div>
+        <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-[#7cb50a]/10 to-transparent pointer-events-none"></div>
+      </a>
+    );
+  }
+
+  return (
+    <a 
+      href={SMB_STORE_DATA.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex flex-col overflow-hidden rounded-xl border border-slate-700 bg-[#1c222a] shadow-sm transition-all hover:shadow-md"
+    >
+      <div className="relative h-28 w-full bg-[#1c222a] p-6 flex flex-col items-center justify-center border-b border-slate-800">
+        <LayoutDashboard className="h-16 w-16 text-[#7cb50a] opacity-10 absolute -right-2 -bottom-2 rotate-12" />
+        <span className="inline-block rounded-full bg-[#7cb50a] px-3 py-1 text-[10px] font-bold text-[#1c222a] uppercase tracking-widest mb-1 shadow-sm">Sistema SMB Store</span>
+        <h4 className="text-lg font-black text-white text-center uppercase tracking-tighter leading-tight">{SMB_STORE_DATA.headline}</h4>
+      </div>
+      <div className="p-5 flex flex-col h-full bg-[#1c222a]">
+        <div className="space-y-3 mb-6 flex-1">
+          <p className="text-sm font-bold text-slate-400 leading-tight mb-2">{SMB_STORE_DATA.desc}</p>
+          {SMB_STORE_DATA.benefits.map((b, idx) => (
+            <div key={idx} className="flex items-center gap-3 text-sm font-medium text-slate-300">
+              <div className="h-6 w-6 rounded-full bg-[#7cb50a]/20 flex items-center justify-center shrink-0">
+                <b.icon className="h-4 w-4 text-[#7cb50a]" />
+              </div>
+              <span className="text-xs font-bold">{b.text}</span>
+            </div>
+          ))}
+        </div>
+        <div className="w-full rounded-lg bg-[#7cb50a] py-3.5 text-center text-sm font-bold text-[#1c222a] shadow-md transition-all group-hover:bg-[#8ed10b] group-hover:shadow-lg active:scale-95 flex items-center justify-center gap-2 uppercase tracking-wide">
+          {SMB_STORE_DATA.cta} <MousePointerClick className="h-4 w-4" />
+        </div>
+      </div>
+    </a>
+  );
+};
 
 // Ton Custom Banner Component
 const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> = ({ type, modelIndex }) => {
@@ -87,12 +158,12 @@ const TonBanner: React.FC<{ type: 'horizontal' | 'card', modelIndex: number }> =
   );
 };
 
-const ResponsiveAd = ({ isMobile, modelIndex }: { isMobile: boolean, modelIndex: number }) => (
+const ResponsiveAd = ({ isMobile, brand, modelIndex = 0 }: { isMobile: boolean, brand: 'ton' | 'smb', modelIndex?: number }) => (
   <div className="w-full">
-    {isMobile ? (
-      <TonBanner type="card" modelIndex={modelIndex} />
+    {brand === 'ton' ? (
+      isMobile ? <TonBanner type="card" modelIndex={modelIndex} /> : <TonBanner type="horizontal" modelIndex={modelIndex} />
     ) : (
-      <TonBanner type="horizontal" modelIndex={modelIndex} />
+      isMobile ? <SMBBanner type="card" /> : <SMBBanner type="horizontal" />
     )}
   </div>
 );
@@ -265,8 +336,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
-      {/* Ad Pos 1: Under Summary */}
-      <ResponsiveAd isMobile={isMobile} modelIndex={0} />
+      {/* Ad Pos 1: Under Summary (Ton) */}
+      <ResponsiveAd isMobile={isMobile} brand="ton" modelIndex={0} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
@@ -301,8 +372,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
           </div>
       </div>
 
-      {/* Ad Pos 2: Under Location Grid */}
-      <ResponsiveAd isMobile={isMobile} modelIndex={1} />
+      {/* Ad Pos 2: Under Location Grid (SMB Store) */}
+      <ResponsiveAd isMobile={isMobile} brand="smb" />
 
       <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-6">
         <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Atividades Econômicas</h3>
@@ -329,8 +400,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
         </div>
       </div>
 
-      {/* Ad Pos 3: Under Economic Activities */}
-      <ResponsiveAd isMobile={isMobile} modelIndex={2} />
+      {/* Ad Pos 3: Under Economic Activities (Ton) */}
+      <ResponsiveAd isMobile={isMobile} brand="ton" modelIndex={1} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white dark:bg-slate-900 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-800">
@@ -393,8 +464,8 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
          </div>
       </div>
 
-       {/* Ad Pos 4: Under Registry Info */}
-       <ResponsiveAd isMobile={isMobile} modelIndex={3} />
+       {/* Ad Pos 4: Under Registry Info (Ton) */}
+       <ResponsiveAd isMobile={isMobile} brand="ton" modelIndex={2} />
 
        <div className="space-y-4 pt-4">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">FAQ - Perguntas e Respostas</h2>
@@ -404,6 +475,11 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
             <FaqItem question={`Qual o CNAE da empresa ${data.razao_social}?`} answer={`A atividade principal (CNAE) é ${data.cnae_fiscal} - ${data.cnae_fiscal_descricao}.`} />
             <FaqItem question={`Qual o endereço da empresa ${data.razao_social}?`} answer={`A empresa está localizada em: ${data.descricao_tipo_de_logradouro} ${data.logradouro}, ${data.numero} ${data.complemento ? `- ${data.complemento}` : ''}, Bairro ${data.bairro}, ${data.municipio} - ${data.uf}, CEP ${data.cep}.`} />
           </div>
+       </div>
+
+       {/* Final Ad: Before Footer (SMB Store Horizontal) */}
+       <div className="pt-4">
+         <ResponsiveAd isMobile={isMobile} brand="smb" />
        </div>
 
        {/* QSA Modal */}

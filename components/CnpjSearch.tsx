@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, Loader2, AlertCircle, ArrowRight, CreditCard, Sparkles } from 'lucide-react';
+import { Search, Loader2, AlertCircle, ArrowRight, CreditCard, Sparkles, LayoutDashboard, MousePointerClick, CheckCircle2 } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchCompanyByCnpj } from '../services/api';
 import { CompanyData } from '../types';
 import { CompanyDetails } from './CompanyDetails';
-import { AFFILIATE_LINK, TON_BENEFITS, MACHINE_MODELS_DATA } from '../constants';
+import { AFFILIATE_LINK, TON_BENEFITS, MACHINE_MODELS_DATA, SMB_STORE_DATA } from '../constants';
 
 const HomePromoBanner: React.FC = () => {
   return (
@@ -16,7 +16,6 @@ const HomePromoBanner: React.FC = () => {
       className="group relative block w-full overflow-hidden rounded-2xl border border-lime-400 bg-gradient-to-br from-lime-400 via-lime-500 to-emerald-600 shadow-xl transition-all hover:shadow-2xl hover:-translate-y-1 md:min-h-[320px]"
     >
       <div className="flex h-full flex-col md:flex-row">
-        {/* Left Side: Headline */}
         <div className="relative z-10 flex flex-[1.2] flex-col justify-center p-6 md:p-10">
           <div className="mb-4 flex items-center gap-2">
             <span className="flex items-center gap-1 rounded-full bg-slate-900 px-3 py-1 text-[10px] font-black text-lime-400 uppercase tracking-widest">
@@ -41,7 +40,6 @@ const HomePromoBanner: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Side: Benefits */}
         <div className="relative z-10 flex flex-1 flex-col justify-center bg-black/5 p-6 md:p-10 backdrop-blur-sm md:bg-transparent md:backdrop-blur-0 border-t border-white/10 md:border-t-0 md:border-l">
           <div className="grid grid-cols-1 gap-3">
             {TON_BENEFITS.slice(0, 3).map((benefit, i) => (
@@ -56,20 +54,62 @@ const HomePromoBanner: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+      <CreditCard className="absolute -bottom-10 -right-10 h-64 w-64 text-slate-900/5 -rotate-12 pointer-events-none" />
+    </a>
+  );
+};
+
+const SMBHomeBanner: React.FC = () => {
+  return (
+    <a 
+      href={SMB_STORE_DATA.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative block w-full overflow-hidden rounded-2xl border border-slate-700 bg-[#1c222a] shadow-xl transition-all hover:shadow-2xl hover:-translate-y-1 md:min-h-[320px]"
+    >
+      <div className="flex h-full flex-col md:flex-row">
+        <div className="relative z-10 flex flex-[1.2] flex-col justify-center p-6 md:p-10">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="flex items-center gap-1 rounded-full bg-[#7cb50a] px-3 py-1 text-[10px] font-black text-[#1c222a] uppercase tracking-widest">
+              SMB Store
+            </span>
+          </div>
           
-          <div className="mt-6 flex flex-wrap gap-3">
-            {MACHINE_MODELS_DATA.slice(0, 3).map((model, i) => (
-              <span key={i} className="rounded-md bg-slate-900/10 px-2 py-1 text-[10px] font-black text-slate-900 uppercase">
-                {model.name}
-              </span>
+          <h2 className="text-3xl font-black text-white md:text-5xl uppercase tracking-tighter leading-[0.85] mb-4">
+            {SMB_STORE_DATA.headline} <br />
+            <span className="text-[#7cb50a]">Controle Seu Negócio</span>
+          </h2>
+          
+          <p className="mb-8 max-w-md text-sm font-bold text-slate-400 md:text-lg leading-tight">
+            {SMB_STORE_DATA.desc} Mais de 30 mil empreendedores já confiam na nossa tecnologia.
+          </p>
+
+          <div className="flex items-center gap-4">
+            <div className="flex h-14 items-center justify-center rounded-full bg-[#7cb50a] px-10 text-base font-black text-[#1c222a] shadow-2xl transition-all group-hover:scale-105 active:scale-95 text-center uppercase tracking-tighter">
+              {SMB_STORE_DATA.cta} <MousePointerClick className="ml-2 h-5 w-5" />
+            </div>
+          </div>
+        </div>
+
+        <div className="relative z-10 flex flex-1 flex-col justify-center bg-white/5 p-6 md:p-10 backdrop-blur-sm border-t border-white/10 md:border-t-0 md:border-l border-slate-800">
+          <div className="grid grid-cols-1 gap-3">
+            {SMB_STORE_DATA.benefits.map((benefit, i) => (
+              <div key={i} className="flex items-center gap-4 rounded-xl bg-white/5 p-4 border border-white/10 shadow-sm transition-transform group-hover:translate-x-2">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#7cb50a] text-[#1c222a] shadow-lg">
+                  <benefit.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-white uppercase leading-none mb-1">Benefício SMB</h4>
+                  <p className="text-xs font-bold text-slate-400 leading-tight">{benefit.text}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </div>
-
-      {/* Decorative Background */}
-      <div className="absolute top-0 right-0 h-full w-1/3 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
-      <CreditCard className="absolute -bottom-10 -right-10 h-64 w-64 text-slate-900/5 -rotate-12 pointer-events-none" />
+      <LayoutDashboard className="absolute -bottom-10 -right-10 h-64 w-64 text-white/5 -rotate-12 pointer-events-none" />
     </a>
   );
 };
@@ -192,8 +232,12 @@ export const CnpjSearch: React.FC = () => {
           )}
         </div>
 
-        {/* Promo Banner under Search Box */}
-        {!data && <HomePromoBanner />}
+        {!data && (
+          <div className="grid grid-cols-1 gap-6">
+            <HomePromoBanner />
+            <SMBHomeBanner />
+          </div>
+        )}
       </div>
 
       {data && (
