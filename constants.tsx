@@ -23,7 +23,7 @@ export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
 
 export const AFFILIATE_LINK = "https://ton.com.br/catalogo/?referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&utm_medium=invite_share&utm_source=revendedor";
 
-export const SMB_STORE_LINK = "https://gestao-simples-produtiva.base44.app";
+export const SMB_STORE_LINK = "https://projetoj.my.canva.site/cnpjjsmb";
 
 export const MACHINE_MODELS_DATA = [
   {
@@ -59,10 +59,10 @@ export const SMB_STORE_DATA = {
   benefits: [
     { icon: LayoutDashboard, text: "Controle vendas, estoque e clientes" },
     { icon: Zap, text: "Sistema leve que não trava seu caixa" },
-    { icon: Users2, text: "+30 mil empreendedores já confiam" }
+    { icon: Users2, text: "+8 mil empreendedores já confiam" }
   ],
   stats: [
-    { label: "Clientes", value: "30k+" },
+    { label: "Clientes", value: "8k+" },
     { label: "Seguidores", value: "70k+" }
   ],
   cta: "Testar Sistema Grátis",

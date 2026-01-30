@@ -27,7 +27,7 @@ const SMBBanner: React.FC<{ type: 'horizontal' | 'card' }> = ({ type }) => {
               <p className="text-xs font-bold text-slate-400 mb-1">{SMB_STORE_DATA.desc}</p>
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#7cb50a]">
                  <CheckCircle2 className="h-3.5 w-3.5" />
-                 <span>Mais de 30 mil empreendedores já usam</span>
+                 <span>Mais de 8 mil empreendedores já usam</span>
               </div>
             </div>
           </div>
