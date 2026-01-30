@@ -21,34 +21,37 @@ import {
 
 export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
 
-export const AFFILIATE_LINK = "https://ton.com.br/catalogo/?referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&utm_medium=invite_share&utm_source=revendedor";
+// Link unificado para a nova landing page
+export const UNIFIED_AFFILIATE_LINK = "https://projetoj.my.canva.site/cnpjjsmb";
 
-export const SMB_STORE_LINK = "https://projetoj.my.canva.site/cnpjjsmb";
+export const AFFILIATE_LINK = UNIFIED_AFFILIATE_LINK;
+
+export const SMB_STORE_LINK = UNIFIED_AFFILIATE_LINK;
 
 export const MACHINE_MODELS_DATA = [
   {
     name: "T3 Smart Pro",
     desc: "A maquininha Android, mais rápida e melhor bateria",
     benefit: "Frete Grátis para todo Brasil",
-    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_SMART_POS_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+    link: UNIFIED_AFFILIATE_LINK
   },
   {
     name: "T3 Pro",
     desc: "A maquininha com comprovante impresso",
     benefit: "Frete Grátis para todo Brasil",
-    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_S920_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+    link: UNIFIED_AFFILIATE_LINK
   },
   {
     name: "T2 Pro",
     desc: "A maquininha compacta que tá sempre com você",
     benefit: "Frete Grátis para todo Brasil",
-    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D195_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+    link: UNIFIED_AFFILIATE_LINK
   },
   {
     name: "T1 Pro",
     desc: "A maquininha compacta que conecta com o seu celular",
     benefit: "Frete Grátis para todo Brasil",
-    link: "https://ton.com.br/checkout/cart/?productId=TONPRO_TIER_NOV24_D150_B&referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&userTag=tonpro_tier_nov24_b&utm_medium=invite_share&utm_source=revendedor"
+    link: UNIFIED_AFFILIATE_LINK
   }
 ];
 
@@ -66,7 +69,7 @@ export const SMB_STORE_DATA = {
     { label: "Seguidores", value: "70k+" }
   ],
   cta: "Testar Sistema Grátis",
-  link: SMB_STORE_LINK
+  link: UNIFIED_AFFILIATE_LINK
 };
 
 export const TON_BENEFITS = [
@@ -82,8 +85,8 @@ export const NAV_ITEMS = [
     items: [
       { title: 'Consulta CNPJ', href: '/', icon: Search },
       { title: 'Status do Serviço', href: '/status', icon: Activity },
-      { title: 'Maquininha de Cartão', href: AFFILIATE_LINK, icon: CreditCard, external: true },
-      { title: 'Controle Financeiro', href: SMB_STORE_LINK, icon: LayoutDashboard, external: true },
+      { title: 'Maquininha de Cartão', href: UNIFIED_AFFILIATE_LINK, icon: CreditCard, external: true },
+      { title: 'Controle Financeiro', href: UNIFIED_AFFILIATE_LINK, icon: LayoutDashboard, external: true },
     ],
   },
   {
@@ -108,8 +111,8 @@ export const FOOTER_LINKS = [
     items: [
       { title: 'Consulta CNPJ', href: '/', icon: Search },
       { title: 'Status do Serviço', href: '/status', icon: Activity },
-      { title: 'Maquininha de Cartão', href: AFFILIATE_LINK, icon: CreditCard, external: true },
-      { title: 'Controle Financeiro', href: SMB_STORE_LINK, icon: LayoutDashboard, external: true },
+      { title: 'Maquininha de Cartão', href: UNIFIED_AFFILIATE_LINK, icon: CreditCard, external: true },
+      { title: 'Controle Financeiro', href: UNIFIED_AFFILIATE_LINK, icon: LayoutDashboard, external: true },
     ],
   },
   {
