@@ -23,7 +23,7 @@ export const API_BASE_URL = 'https://brasilapi.com.br/api/cnpj/v1';
 
 export const AFFILIATE_LINK = "https://ton.com.br/catalogo/?referrer=EA9DA3C9-84B0-4436-A864-AE01BEC154EC&userAnticipation=0&utm_medium=invite_share&utm_source=revendedor";
 
-export const SMB_STORE_LINK = "https://indiquesmb.com/cnpjj";
+export const SMB_STORE_LINK = "https://gestao-simples-produtiva.base44.app";
 
 export const MACHINE_MODELS_DATA = [
   {
