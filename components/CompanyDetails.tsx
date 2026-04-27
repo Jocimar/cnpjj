@@ -317,27 +317,31 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   }
 
-  const formatPhone = (ddd: string | null, phone: string | null) => {
-    const cleanDdd = ddd?.replace(/\D/g, '').trim() || '';
-    const cleanPhone = phone?.replace(/\D/g, '').trim() || '';
-    
-    if (!cleanDdd && !cleanPhone) return null;
-    
-    if (cleanPhone.length > 8 && cleanPhone.startsWith(cleanDdd) && cleanDdd !== '') {
-       // O telefone já contém o DDD
-       const num = cleanPhone.slice(cleanDdd.length);
-       return `(${cleanDdd}) ${num.slice(0, num.length - 4)}-${num.slice(-4)}`;
-    }
-    
-    if (cleanDdd && cleanPhone) {
-      return `(${cleanDdd}) ${cleanPhone.slice(0, cleanPhone.length - 4)}-${cleanPhone.slice(-4)}`;
-    }
-    
-    return cleanPhone || cleanDdd || null;
+  const formatPhone = (phone1: string | null, phone2: string | null) => {
+    const format = (val: string | null) => {
+      const clean = val?.replace(/\D/g, '').trim() || '';
+      if (!clean) return null;
+      if (clean.length >= 10) {
+        // Assume [DDD][Number]
+        return `(${clean.slice(0, 2)}) ${clean.slice(2, clean.length - 4)}-${clean.slice(-4)}`;
+      }
+      return clean;
+    };
+
+    const p1 = format(phone1);
+    const p2 = format(phone2);
+
+    if (p1 && p2) return `${p1} / ${p2}`;
+    return p1 || p2 || null;
   };
 
-  // Melhoria na detecção do e-mail: tenta vários campos possíveis que a BrasilAPI costuma retornar
+  // O email já vem normalizado no serviço de API, mas mantemos o fallback por segurança
   const companyEmail = data.email || (data as any).correio_eletronico || (data as any).email_contato;
+
+  // Formatação do logradouro para evitar "undefined" ou espaços extras
+  const fullLogradouro = [data.descricao_tipo_de_logradouro, data.logradouro]
+    .filter(val => val && val.trim() !== '')
+    .join(' ') || 'Não informado';
 
   return (
     <div className="space-y-6">
@@ -398,7 +402,7 @@ export const CompanyDetails: React.FC<CompanyDetailsProps> = ({ data }) => {
                 <h3 className="font-bold text-slate-900 dark:text-white text-lg">Localização</h3>
              </div>
              <div className="flex flex-col gap-1">
-                 <DataRow label="Logradouro" value={`${data.descricao_tipo_de_logradouro} ${data.logradouro}`} />
+                 <DataRow label="Logradouro" value={fullLogradouro} />
                  <DataRow label="Número" value={data.numero} />
                  <DataRow label="Complemento" value={data.complemento} />
                  <DataRow label="Bairro" value={data.bairro} />

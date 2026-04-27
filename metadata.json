@@ -1,5 +1,6 @@
 {
   "name": "CNPJJ",
   "description": "Ferramenta gratuita de consulta de CNPJ e análise de empresas brasileiras.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }
